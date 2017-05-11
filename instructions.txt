@@ -1,0 +1,47 @@
+Installation instructions (UNIX version) 
+----------------------------------------
+
+1. Uncompress and extract the archive in the matlab program directory, 
+   using the following commands:
+
+   gunzip calfem-3.3.tar.gz
+   tar xvf calfem-3.3.tar 
+
+2. The following directory structure will be created.
+
+   /toolbox/fem
+   /toolbox/examples
+
+3. Add the these directories to the MATLAB path using the editpath command
+   in MATLAB.
+
+Installation instructions (Windows version)
+-------------------------------------------
+
+1. Extract the .zip file in the MATLAB program directory, by double-clicking
+   on the calfem-3.3.zip file. (Requires winzip, see www.winzip.com). Click on
+   the "Extract"-button and choose the MATLAB directory. The "Use folder names"
+   checkbox must be checked.
+
+2. The following directory structure will be created.
+
+   \toolbox\fem
+   \toolbox\examples
+
+3. Add the these directories to the MATLAB path using the editpath command
+   in MATLAB.
+
+Testing the installation
+------------------------
+
+enter the following commands at the MATLAB prompt:
+
+   help beam2e
+
+The help text for the beam2e command should appear if CALFEM is correctly 
+installed.
+
+
+
+
+
