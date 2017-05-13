@@ -1,21 +1,52 @@
     Q = 100;
     A = 10;
     k = 5;
-
-    Edof = [1 1 2;
-        2 2 3;
-        3 3 4];
+    Nelem=20;
+    Ndof = Nelem +1;
+    L  = 6/Nelem;
+    T0 = 0;
+    q_4_boundary = 15;
+    
+    
+    Edof = zeros(Nelem, 3)
+    
+    for i=1:Nelem 
+        Edof(i,:) = [i, i, i + 1];
+    end
+       
+   EssentialNodeNo = 1;
+    
+   %materialegenskapsmatris
+   K = zeros(Ndof)
    
-   K = zeros(4);
-   f = zeros(4, 1);
+   %lastvektorn
+   fl = zeros(Ndof, 1)
    
-   ep = k*A;
+   %elementmaterialegenskap
+   ep = k*A/L; %simple
+   Ke = spring1e(ep) %matrix
    
-   Ke = spring1e(ep);
-   fe = [100; 100];
+   %elementlastvektorn
+   fe = [100*L/2; 100*L/2];
    
-for n = 1:3
-   [f, K]=assem(Edof(n,:),K,Ke, f, fe);
+for n = 1:Nelem
+   [K, fl]=assem(Edof(n,:),K,Ke, fl, fe);
 end
 
-fb = 
+
+%cut out essential node from equation
+fb_clipped = [ zeros(Ndof-2, 1); -A*q_4_boundary];
+
+K_clipped = K
+K_clipped (EssentialNodeNo,:) = [];
+K_clipped (:, EssentialNodeNo) = []
+fl_clipped = fl;
+fl_clipped(EssentialNodeNo) = []
+f_clipped = fl_clipped + fb_clipped
+
+
+%Denna borde kallas A
+[T_clipped, Q]=solveq(K_clipped,f_clipped)
+T = [T0;T_clipped]
+
+q_1_boundary = spring1s( ep, [T(2), T(1)])
