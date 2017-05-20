@@ -1,7 +1,7 @@
     Q = 100;
     A = 10;
     k = 5;
-    Nelem=40;
+    Nelem=160;
     Ndof = Nelem +1;
     L  = 6/Nelem;
     T0 = 100;
@@ -50,9 +50,9 @@ f_clipped = fl_clipped + fb_clipped;
 %Denna borde kallas A
 %[T_clipped, Q]=solveq(K_clipped,f_clipped)
 %T = [T0;T_clipped]
-[T, Q]=solveq(K,[100;f_clipped], bc);
+[T, Q]=solveq(K,[100*L/2;f_clipped], bc);
 
 Q(1)
-q_1_boundary = spring1s( ep, [T(2), T(1)])
+%q_1_boundary = spring1s( ep, [T(2), T(1)])
 
 T(1:4)
