@@ -2,23 +2,21 @@
 
 clear all
 constants;
-boundary_geometry_lo;
+
 stuff = load('mesh-lo.mat');
 edges = stuff.edges;
 
 %correct scale in stuff.points 
 points = stuff.points/1000;
 
-triangles = stuff.triangles;
-nelem=length(triangles(1,:));
+elements = stuff.triangles;
+nelem=length(elements(1,:));
 edof(:,1)=1:nelem ;
-edof(:,2:4)=triangles(1:3,:)' ;
+edof(:,2:4)=elements(1:3,:)' ;
 coord=points' ;
-ndof=max(max(triangles(1:3,:)));
+ndof=max(max(elements(1:3,:)));
 [Ex,Ey]=coordxtr(edof,coord,(1:ndof)',3);
 eldraw2(Ex,Ey,[1,4,1]);
-
-edges()
 
 dt = 0.1;
 Time = 1;
@@ -40,7 +38,7 @@ conv_edges = union (conv_edges, find ( edges(5,:)==4 ));
 
 
 for elem = 1:nelem
-    switch triangles(4, elem)
+    switch elements(4, elem)
         case 1
             k = k_pcb;
             c_ro = c_pcb * ro_pcb;
