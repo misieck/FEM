@@ -12,7 +12,7 @@ k_sol = 66.8;
 
 ro_smd = 1850; %mass density [kg/m^3]
 ro_pcb = 1850;
-ro_sol = 7625;
+ro_sol = 7265;
 
 c_smd = 950; %specfic heat conductivity [J/(kgK]
 c_pcb = 950;
