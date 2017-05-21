@@ -1,4 +1,5 @@
 clear all;
+hold on;
 
 %erhåller konstanter
 constants;
@@ -19,9 +20,9 @@ ndof=max(max(triangles(1:3,:)));
 [Ex,Ey]=coordxtr(edof,coord,(1:ndof)',3);
 eldraw2(Ex,Ey,[1,4,1])
 
-%Här ska den stationära lösningen för t komma!!!!!!!!!!!!!!!
+%Här ska den stationära lösningen för temperaturen komma!!!!!!!!!!!!!!!
 %Importera från project
-a_stat = ones(ndof,1);
+Temp_stat = ones(ndof,1);
 
 %vi har fler (dubbelt så många) frihetsgrader - redigera edof och ndof
 %Kan detta göraspå snyggare sätt?
@@ -76,7 +77,7 @@ for i = 1:nelem
  %Vi vill veta vilka noder som är kopplade...
  nodes = edof_old(i,2:4);
  %för attt kunna plocka ut rätt temperatur ur a_stat
- T = [a_stat(nodes(1)); a_stat(nodes(2)); a_stat(nodes(3))];
+ T = [Temp_stat(nodes(1)); Temp_stat(nodes(2)); Temp_stat(nodes(3))];
  
  %Räkna ut Ke
  Ke = plante(Ex(i,:), Ey(i,:), [2 1], D);
@@ -134,4 +135,4 @@ end
 
 %PRINTA!!!
 Ed = extract(edof,a);
-[sfac] =eldisp2(Ex,Ey,Ed);
+[sfac] = eldisp2(Ex,Ey,Ed);
