@@ -19,7 +19,7 @@ ndof=max(max(elements(1:3,:)));
 eldraw2(Ex,Ey,[1,4,1]);
 
 dt = 0.1;
-Time = 0.5;
+Time = 1;
 
 K = sparse(ndof,ndof);
 K_c = sparse(ndof,ndof);
@@ -66,7 +66,7 @@ K_1 = K;
 
 for edge = q_edges
     nodes = edges(1:2, edge);
-    edge_length = distance( points(:, edges(1, edge)), points (:, edges(2, edge)) );
+    edge_length = distance_proj( points(:, edges(1, edge)), points (:, edges(2, edge)) );
     f_b_e = sparse(ndof, 1);
     f_b_e(nodes) = q_el * edge_length/2;
     f_b = f_b + f_b_e;
@@ -74,7 +74,7 @@ end
 
 for edge = conv_edges
     nodes = edges(1:2, edge);
-    edge_length = distance( points(:, edges(1, edge)), points (:, edges(2, edge)) );
+    edge_length = distance_proj( points(:, edges(1, edge)), points (:, edges(2, edge)) );
     f_b_e = sparse(ndof, 1);
     f_b_e(nodes) = T_inf * alpha_c * edge_length/2;
     f_b = f_b + f_b_e;
@@ -82,7 +82,7 @@ end
 
 for edge = conv_edges
     nodes = edges(1:2, edge);
-    edge_length = distance( points(:, edges(1, edge)), points (:, edges(2, edge)) );
+    edge_length = distance_proj( points(:, edges(1, edge)), points (:, edges(2, edge)) );
     K_c_e = sparse(ndof, ndof);
     K_c_e (nodes(1), nodes(2)) = alpha_c * edge_length/6;
     K_c_e (nodes(2), nodes(1)) = K_c_e(nodes(1), nodes(2));
@@ -99,7 +99,7 @@ pbound = [pbound' T_0*ones(length(pbound),1)];
 time_history_of_the_load = f_b;
 
 d0 = T_0 * ones(ndof,1);
-ip = [dt, Time, 0, [2, 3, [0.1 0.3], [58, 53, 74] ]  ];
+ip = [dt, Time, 1, [2, 3, [0.1 0.3], [58, 53, 74] ]  ];
 Tsnap = step1(K, C, d0, ip, f_b, []);
 
 
