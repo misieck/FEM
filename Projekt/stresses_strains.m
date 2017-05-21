@@ -83,7 +83,10 @@ for i = 1:nelem
  Ke = plante(Ex(i,:), Ey(i,:), [2 1], D);
  
  %Räkna ut f0e MYCKET OSÄKER PÅ DETTA UTTRYCK!!!!
- f0e = alpha*E/(1-2*nu)*(T(1)+T(2)+T(3)-15)*[y(2)-y(3); x(3)- x(2); y(3)-y(1); x(1)-x(3); y(1)-y(2); x(2)-x(1)];
+ Ttot = sum(T);
+ constant=0.5*alpha*E/(1-2*nu)*(1/3*Ttot-T_0);
+ Be110 = [y(2)-y(3); x(3)- x(2); y(3)-y(1); x(1)-x(3); y(1)-y(2); x(2)-x(1)];
+ f0e = constant * Be110;
  [K, f0] = assem(edof(i, :), K, Ke, f0, f0e);
  
 end

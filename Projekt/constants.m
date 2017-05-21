@@ -25,4 +25,4 @@ alpha_sol = 1.2e-5;
 T_0 = 30; %initial temperature [C]
 alpha_c = 40; %convection coefficient [W/(m^2K)]
 q_el = 9e3; %heat flow [W/m^2]
-T_inf = 20 %surrounding temperature [C]
+T_inf = 20; %surrounding temperature [C]
