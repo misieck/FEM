@@ -19,7 +19,7 @@ ndof=max(max(elements(1:3,:)));
 eldraw2(Ex,Ey,[1,4,1]);
 
 dt = 0.1;
-Time = 1;
+Time = 240;
 
 K = sparse(ndof,ndof);
 K_c = sparse(ndof,ndof);
@@ -99,7 +99,7 @@ pbound = [pbound' T_0*ones(length(pbound),1)];
 time_history_of_the_load = f_b;
 
 d0 = T_0 * ones(ndof,1);
-ip = [dt, Time, 1, [2, 3, [0.1 0.3], [58, 53, 74] ]  ];
+ip = [dt, Time, 1, [3, 3, [0.1 3 240], [58, 53, 74] ]  ];
 Tsnap = step1(K, C, d0, ip, f_b, []);
 
 
