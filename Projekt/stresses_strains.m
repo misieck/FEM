@@ -1,28 +1,10 @@
 clear all;
-hold on;
+project;
 
-%erhåller konstanter
-constants;
-
-
-%laddar information från vårt mesh
-stuff = load('mesh-lo.mat');
-edges = stuff.edges;
-points = stuff.points/1000;
-triangles = stuff.triangles;
-
-%kod från hemsidan för att få edof, Ex, Ey och coord
-nelem=length(triangles(1,:));
-edof(:,1)=1:nelem; 
-edof(:,2:4)=triangles(1:3,:)';
-coord=points';
-ndof=max(max(triangles(1:3,:)));
-[Ex,Ey]=coordxtr(edof,coord,(1:ndof)',3);
-eldraw2(Ex,Ey,[1,4,1])
 
 %Här ska den stationära lösningen för temperaturen komma!!!!!!!!!!!!!!!
 %Importera från project
-Temp_stat = ones(ndof,1);
+Temp_stat = Tsnap(:,3);
 
 %vi har fler (dubbelt så många) frihetsgrader - redigera edof och ndof
 %Kan detta göraspå snyggare sätt?
@@ -49,7 +31,7 @@ D_sol = red(D_sol, 3);
 %kolla så elementnummer stämmer med rätt D
 %Tillskriv rätt D beroende på material samt assembla Ke och fe0
 for i = 1:nelem
-     switch triangles(4, i)
+     switch elements(4, i)
         case 1
             D = D_pcb;
             nu = nu_pcb;
@@ -116,7 +98,7 @@ t = [];
 s = [];
 vonMises = [];
 for i = 1:nelem
-         switch triangles(4, i)
+         switch elements(4, i)
         case 1
             D = D_pcb;
             
@@ -137,5 +119,5 @@ for i = 1:nelem
 end
 
 %PRINTA!!!
-Ed = extract(edof,a);
+aEd = extract(edof,a);
 [sfac] = eldisp2(Ex,Ey,Ed);
