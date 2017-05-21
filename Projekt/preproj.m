@@ -66,7 +66,7 @@ for elem = 1:nelem
         disp 'hej'
     end
 end
-K_1 = K
+K_1 = K;
 
 
 
@@ -74,4 +74,4 @@ K_1 = K
 
 d0 = T_0 * ones(ndof,1);
 ip = [dt, Time, 0.4, [3, 5, [0.1 0.3 2.8], [1, 2, 6, 4, 11] ]  ];
-Tsnap = step1(K, C, d0, ip, f_b, [])
+Tsnap = step1(K, C, d0, ip, f_b, []);
