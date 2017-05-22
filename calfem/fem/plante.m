@@ -62,7 +62,6 @@ if ptype==1
 elseif ptype==2
        B=[0 1 0 0 0 0
           0 0 0 0 0 1
-%          0 0 0 0 0 0
           0 0 1 0 1 0]*inv(C);
 
        colD=size(D,2);

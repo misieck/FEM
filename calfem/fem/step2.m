@@ -74,7 +74,7 @@
     end
     if (nsnap > 0);          Dsnap=zeros(nd,nsnap); end
   end  
-  a0=M\(tf(1)-C*v0-K*d0);
+  a0=M\(tf(:,1)-C*v0-K*d0);
   if (nhist > 0);
     D(:,1) = d0(listh);   V(:,1) = v0(listh);   A(:,1) = a0(listh);
   end 

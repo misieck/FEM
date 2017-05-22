@@ -41,19 +41,19 @@ text(0.3,0.012,'dashed line = center, horizontal beam, y-direction')
 % ----- Plot displacements for some time increments -------------
 
 figure(2),clf, axis('equal'), hold on, axis off
-magnfac=25;  
+sfac=25;  
 title('Snapshots (sec), magnification = 25');
 for i=1:5;
   Ext=Ex+(i-1)*3;            eldraw2(Ext,Ey,[2 3 0]); 
   Edb=extract(Edof,Dsnap(:,i));
-  eldisp2(Ext,Ey,Edb,[1 2 2],magnfac);
+  eldisp2(Ext,Ey,Edb,[1 2 2],sfac);
   Time=num2str(ntimes(i));   text(3*(i-1)+.5,1.5,Time);
 end;
 Eyt=Ey-4; 
 for i=6:10;
   Ext=Ex+(i-6)*3;            eldraw2(Ext,Eyt,[2 3 0]); 
   Edb=extract(Edof,Dsnap(:,i));
-  eldisp2(Ext,Eyt,Edb,[1 2 2],magnfac);
+  eldisp2(Ext,Eyt,Edb,[1 2 2],sfac);
   Time=num2str(ntimes(i));   text(3*(i-6)+.5,-2.5,Time);
 end
 

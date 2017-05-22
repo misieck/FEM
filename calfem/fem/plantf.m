@@ -50,7 +50,7 @@ if ptype==1
        0 0 1 0 1 0]*inv(C);
     
     if colD>3 stress=es(i,[1 2 4]); else stress=es(i,:); end
-    ef=[ef;(A*t*B'*stress')']';
+    ef=[ef;(A*t*B'*stress')'];
   
     ie=ie+incie;
   end
@@ -77,7 +77,7 @@ elseif ptype==2
        0 0 1 0 1 0]*inv(C);
 
     if colD>3 stress=es(i,[1 2 4]); else stress=es(i,:); end
-    ef=[ef;(A*t*B'*stress')']';
+    ef=[ef;(A*t*B'*stress')'];
 
     ie=ie+incie;
   end

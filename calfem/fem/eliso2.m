@@ -34,15 +34,15 @@ function eliso2(ex,ey,ed,isov,plotpar)
 %         
 %-------------------------------------------------------------
 
-% LAST MODIFIED: A Olsson 1999-03-01
+% LAST MODIFIED: O Dahlblom 2004-10-01
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
 %
  if ~((nargin==4)|(nargin==5))
-    error('??? Wrong number of input arguments!')
-    
+    disp('??? Wrong number of input arguments!')
+    return
  end
  
  a=size(ex); b=size(ey); c=size(ed);niv=length(isov);
@@ -50,14 +50,14 @@ function eliso2(ex,ey,ed,isov,plotpar)
  if (a-b)==[0 0]
      nel=a(1);nen=a(2); 
  else
-    error('??? Check size of coordinate input arguments!') 
-    
+    disp('??? Check size of coordinate input arguments!') 
+    return
  end
 
  if ~(c(1)==a(1))
-    error('??? Check size of Ed matrix!')
-    error('One row for each element, i.e the mean flow in x- and y-directions !') 
-    
+    disp('??? Check size of Ed matrix!')
+    disp('One row for each element, i.e the mean flow in x- and y-directions !') 
+    return 
  end
  
  ned=c(2); 
@@ -85,11 +85,11 @@ end
  end
  plotpar=[plotpar(1:2) 0];
  s1=pltstyle(plotpar);
- axis([min(min(ex)) max(max(ex)) min(min(ey)) max(max(ey))]);
+ %axis([min(min(ex)) max(max(ex)) min(min(ey)) max(max(ey))]);
 % *****************************************************************
  if ~((nen==3)|(nen==4))  
-     error('Sorry, this element is currently not supported!') 
-   
+     disp('Sorry, this element is currently not supported!') 
+     return 
  else
  %
  ex(:,nen+1)=ex(:,1); ey(:,nen+1)=ey(:,1);ed(:,nen+1)=ed(:,1);

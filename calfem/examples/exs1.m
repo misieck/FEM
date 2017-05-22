@@ -8,6 +8,7 @@
 % REFERENCES
 %     P-E Austrell 1994-03-08 
 %     K-G Olsson 1995-09-28
+%     O Dahlblom 2004-09-06
 %----------------------------------------------------------------
 echo on
  
@@ -37,7 +38,7 @@ echo on
 %----- Solve the system of equations ----------------------------
 
  bc= [1 0; 3 0];   
- a=solveq(K,f,bc)
+ [a,r]=solveq(K,f,bc)
 
 %----- Element forces -------------------------------------------
 

@@ -1,6 +1,6 @@
-  function [d,Q]=solve(K,f,bc)
-% a=solve(K,f)
-% [a,Q]=solve(K,f,bc)
+  function [d,Q]=solveq(K,f,bc)
+% a=solveq(K,f)
+% [a,Q]=solveq(K,f,bc)
 %-------------------------------------------------------------
 % PURPOSE
 %  Solve static FE-equations considering boundary conditions.

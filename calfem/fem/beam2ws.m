@@ -23,7 +23,7 @@
 %                  N2 V2 M2 ]       element forces, local directions 
 % -------------------------------------------------------------------------
  
-% LAST MODIFIED: K-G Olsson  1995-10-21
+% LAST MODIFIED: K Persson  1996-04-26
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
@@ -66,7 +66,7 @@
       0    0    0  -n(2) n(1) 0;
       0    0    0    0    0   1];
  
-  P=(Kle*G*u-fle); 
+  P=(Kle*G*ed'-fle); 
   es=[-P(1) -P(2) -P(3) 
        P(4)  P(5)  P(6)];
 %--------------------------------- end -------------------------------------

@@ -38,9 +38,9 @@ H=mp(3);
 [esr,esc]=size(es);
 D=[];
 
-if ptype==1    
+if ptype==1
   De=hooke(ptype,mp(1),mp(2));
-  if esc~=3 
+  if esc~=3
      error('DMISES requires es=[Sxx Syy Sxy]');
      return
   end
@@ -70,7 +70,7 @@ if ptype==1
     end
   end
   
-elseif (ptype==2  | ptype==3)   
+elseif (ptype==2  | ptype==3)
   if esc~=4
      error('DMISES requires es=[Sxx Syy Szz Sxy]');
      return
@@ -98,7 +98,7 @@ elseif (ptype==2  | ptype==3)
     end
   end
   
-elseif ptype==4 
+elseif ptype==4
   De=hooke(ptype,mp(1),mp(2));
   for i=1:esr
     if iv(i,1)>0.5

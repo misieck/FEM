@@ -3,7 +3,7 @@
 % [K,f]=assem(edof,K,Ke,f,fe)
 %-------------------------------------------------------------
 % PURPOSE
-%  Assembel element matrices Ke ( and fe ) into the global
+%  Assemble element matrices Ke ( and fe ) into the global
 %  stiffness matrix K ( and the global force vector f )
 %  according to the topology matrix edof.
 %

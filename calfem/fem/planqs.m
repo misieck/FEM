@@ -65,7 +65,7 @@ Atot=A1+A2+A3+A4;
 ni=size(ed,1);
 a=[];
 for i=1:ni
-  a=[a solve(K,f,[ [1:8]' ed(i,:)'])];
+  a=[a solveq(K,f,[ [1:8]' ed(i,:)'])];
 end
 
 [s1,t1]=plants(ex1,ey1,ep,D,[a([1 2 3 4 9 10],:)']);

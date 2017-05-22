@@ -16,9 +16,9 @@ function eldraw2(ex,ey,plotpar,elnum)
 %                     nel:   number of elements
 %    plotpar=[ linetype, linecolor, nodemark]
 % 
-%             linetype=1 -> solid    linecolor=1 -> white
-%                      2 -> dashed             2 -> green
-%                      3 -> dotted             3 -> yellow
+%             linetype=1 -> solid    linecolor=1 -> black
+%                      2 -> dashed             2 -> blue
+%                      3 -> dotted             3 -> magenta
 %                                              4 -> red
 %
 %             nodemark=1 -> circle       
@@ -31,16 +31,15 @@ function eldraw2(ex,ey,plotpar,elnum)
 %         
 %-------------------------------------------------------------
 
-% LAST MODIFIED: P-A Hansson  1994-03-27
+% LAST MODIFIED: O Dahlblom 2004-09-28
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
 %
  if ~((nargin==2)|(nargin==3)|(nargin==4))
-    %disp('??? Wrong number of input arguments!')
-    %break
-    error('??? Wrong number of input arguments!')
+    disp('??? Wrong number of input arguments!')
+    return
  end
 
  a=size(ex); b=size(ey);
@@ -48,9 +47,8 @@ function eldraw2(ex,ey,plotpar,elnum)
  if (a-b)==[0 0]
      nel=a(1);nen=a(2);
  else
-    error('??? Check size of coordinate input arguments!')
-    %disp('??? Check size of coordinate input arguments!')
-   %break
+    disp('??? Check size of coordinate input arguments!')
+    return
  end
  if nargin==2; 
       plotpar=[1 1 1]; 
@@ -80,13 +78,11 @@ function eldraw2(ex,ey,plotpar,elnum)
     y=ey';   
     xc=[x ; x(1,:)]; yc=[y ; y(1,:)];
 % ********* 2D 8 node quadratic elements *********
- elseif nen== 8
+ elseif nen==8
     x=ex;
     y=ey;    
-   %xc=[x(1);x(5);x(2);x(6);x(3);x(7);x(4);x(8);x(1)];
-   %yc=[y(1);y(5);y(2);y(6);y(3);y(7);y(4);y(8);y(1)];
-xc=[];
-yc=[];	
+%   xc=[x(1);x(5);x(2);x(6);x(3);x(7);x(4);x(8);x(1)];
+%  yc=[y(1);y(5);y(2);y(6);y(3);y(7);y(4);y(8);y(1)];
 %
 % isoparametric elements
 %
@@ -179,25 +175,22 @@ yc=[];
     clear y1
 %**********************************************************       
  else
-    error('!!!! Sorry, this element is currently not supported!') 
-    %disp('!!!! Sorry, this element is currently not supported!') 
-    %break
+    disp('!!!! Sorry, this element is currently not supported!') 
+    return
  end
 % ************************************************** 
 % **************** plot commands *******************
 % ************************************************** 
- axis('equal')
  hold on
+ axis equal
  plot(xc,yc,s1) 
- if s2~=' '
-   plot(x,y,s2)
- end
+ plot(x,y,s2)
  if nargin==4
     for i=1:nel
         h=text(x0(i),y0(i),int2str(elnum(i)));
         set(h,'fontsize',8);
     end
  end
- xlabel('x'); ylabel('y');
+ %xlabel('x'); ylabel('y');
  hold off 
 %--------------------------end--------------------------------

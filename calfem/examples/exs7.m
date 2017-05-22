@@ -1,73 +1,85 @@
 % example exs7
 %----------------------------------------------------------------
 % PURPOSE 
-%    Analysis of two dimensional diffusion
+%    Set up a frame, consisting of both beams and bars, and
+%    illustrate the calculations by use of graphics functions.
 %----------------------------------------------------------------
 
 % REFERENCES
-%     Karl-Gunnar Olsson 1995-10-08
+%     P-A Hansson  1994-01-20
+%     K-G Olsson   1995-09-28
+%     O Dahlblom   2004-10-07
 %----------------------------------------------------------------
- echo on
+ echo on 
 
-% ----- System matrices -----
+%----- System matrices ------------------------------------------
 
-K=zeros(15);	f=zeros(15,1);
-Coord=[0     0    ; 0.025 0    ; 0.05  0    
-       0     0.025; 0.025 0.025; 0.05  0.025
-       0     0.05 ; 0.025 0.05 ; 0.05  0.05 
-       0     0.075; 0.025 0.075; 0.05  0.075
-       0     0.1  ; 0.025 0.1  ; 0.05  0.1  ];
-Dof=[ 1; 2; 3
-      4; 5; 6
-      7; 8; 9
-     10;11;12
-     13;14;15];
+ K=zeros(18,18);  
+ f=zeros(18,1);  f(13)=1;
 
-% ----- Element properties, topology and coordinates -----
+ Coord=[0 0;
+        1 0;
+        0 1;
+        1 1;
+        0 2;
+        1 2];
+       
+ Dof=[1  2  3;
+      4  5  6;
+      7  8  9;
+     10 11 12;
+     13 14 15;
+     16 17 18];
+    
+%----- Element properties, topology and coordinates -------------
 
-ep=1; D=[1 0;0 1];       
-Edof=[1   1  2  5  4
-      2   2  3  6  5
-      3   4  5  8  7
-      4   5  6  9  8
-      5   7  8 11 10
-      6   8  9 12 11
-      7  10 11 14 13
-      8  11 12 15 14];
-[Ex,Ey]=coordxtr(Edof,Coord,Dof,4);
+ ep1=[1 1 1]; 
+ Edof1=[1   1   2   3   7   8   9;
+        2   7   8   9  13  14  15;
+        3   4   5   6  10  11  12;
+        4  10  11  12  16  17  18;
+        5   7   8   9  10  11  12;
+        6  13  14  15  16  17  18];
+                      
+ [Ex1,Ey1]=coordxtr(Edof1,Coord,Dof,2); 
+        
+ ep2=[1 1];  
+ Edof2=[7   1   2  10  11;
+        8   7   8  16  17;
+        9   7   8   4   5;
+       10  13  14  10  11];
+                   
+ [Ex2,Ey2]=coordxtr(Edof2,Coord,Dof,2);
+                  
+%----- Draw the fe-mesh as a check of the model -----------------
+ 
+ eldraw2(Ex1,Ey1,[1 3 1]);     
+ eldraw2(Ex2,Ey2,[1 2 1]);
+  
+%----- Create and assemble element matrices ---------------------
 
-% ----- Generate FE-mesh -----
+ for i=1:6
+   Ke=beam2e(Ex1(i,:),Ey1(i,:),ep1);       
+   K=assem(Edof1(i,:),K,Ke);
+ end
 
-clf; eldraw2(Ex,Ey,[1 3 0],Edof(:,1));
-disp('PRESS ENTER TO CONTINUE'); pause; clf;
+ for i=1:4
+    Ke=bar2e(Ex2(i,:),Ey2(i,:),ep2);        
+    K=assem(Edof2(i,:),K,Ke);
+ end
 
-% ----- Create and assemble element matrices -----
+%----- Solve equation system ------------------------------------
 
-for i=1:8
-  Ke=flw2qe(Ex(i,:),Ey(i,:),ep,D);
-  K=assem(Edof(i,:),K,Ke);
-end;
+ bc= [1 0; 2 0; 3 0; 4 0; 5 0; 6 0]; 
+ [a,r]=solveq(K,f,bc);
 
-% ----- Solve equation system -----
+%-- Extract element displacements and display the deformed mesh -
 
-bc=[1 0;2 0;3 0;4 0;7 0;10 0;13 0.5e-3;14 1e-3;15 1e-3];
-[a,Q]=solveq(K,f,bc)
+ Ed1=extract(Edof1,a);  
+ Ed2=extract(Edof2,a);
+ 
+ [sfac]=scalfact2(Ex1,Ey1,Ed1,0.1);
+ eldisp2(Ex1,Ey1,Ed1,[2 1 1],sfac);
+ eldisp2(Ex2,Ey2,Ed2,[2 1 1],sfac);
 
-% ----- Compute element flux vector -----
-
-Ed=extract(Edof,a);
-for i=1:8
-  Es(i,:)=flw2qs(Ex(i,:),Ey(i,:),ep,D,Ed(i,:))
-end
-
-% ----- Draw flux vectors and contourlines -----
-
-eldraw2(Ex,Ey,[1,3,0]); elflux2(Ex,Ey,Es,[1,4]); 
- disp('PRESS ENTER TO CONTINUE'); pause; clf;
-eldraw2(Ex,Ey,[1,3,0]); eliso2(Ex,Ey,Ed,5,[1,4]);
-hold off; echo off;
-
-% ----------------- End --------------------------------
-
-
-
+%-------------------------- end ---------------------------------

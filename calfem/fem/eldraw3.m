@@ -16,9 +16,9 @@ function eldraw3(ex,ey,ez,plotpar,elnum)
 %                        nel:   number of elements   
 %    plotpar=[ linetype, linecolor, nodemark]
 % 
-%             linetype=1 -> solid    linecolor=1 -> white
-%                      2 -> dashed             2 -> green
-%                      3 -> dotted             3 -> yellow
+%             linetype=1 -> solid    linecolor=1 -> black
+%                      2 -> dashed             2 -> blue
+%                      3 -> dotted             3 -> magenta
 %                                              4 -> red
 %
 %             nodemark=1 -> circle       
@@ -31,15 +31,15 @@ function eldraw3(ex,ey,ez,plotpar,elnum)
 %         
 %-------------------------------------------------------------
 
-% LAST MODIFIED: P-E Austrell 1994-01-05 
+% LAST MODIFIED: A Olsson 2004-09-03
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
 %
  if ~((nargin==3)|(nargin==4)|(nargin==5))
-    error('??? Wrong number of input arguments!')
-    
+    disp('??? Wrong number of input arguments!')
+    return
  end 
  
  a=size(ex); b=size(ey); c=size(ez);
@@ -47,8 +47,8 @@ function eldraw3(ex,ey,ez,plotpar,elnum)
  if ((a-b)==[0 0])&((b-c)==[0 0])
     nel=a(1);nen=a(2);
  else
-    error('??? Check size of coordinate input arguments!')
-    
+    disp('??? Check size of coordinate input arguments!')
+    return
  end
  if nargin==3; 
       plotpar=[1 1 1]; 
@@ -68,8 +68,8 @@ function eldraw3(ex,ey,ez,plotpar,elnum)
     xc=x; yc=y; zc=z;
 %**********************************************************          
  else
-    error('!!! Sorry, this element is currently not supported!')
-          
+    disp('!!! Sorry, this element is currently not supported!')
+    return      
  end
   
 %*************************************************

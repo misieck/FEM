@@ -13,16 +13,17 @@
 % 
 %         D                       constitutive matrix
 %
-%         ed =[u1 u2 ...u6          element displacement vector
-%              ......     ]         one row for each element
+%         ed =[u1 u2 ...u6        element displacement vector
+%              ......     ]       one row for each element
 %
 % OUTPUT: es = [ sigx sigy [sigz] tauxy   element stress matrix
 %               ......                 ]  one row for each element
-%         et = [ epsx epsy [epsz] gamxy     element strain matrix
-%                  ......              ]  one row for each element
+%
+%         et = [ epsx epsy [epsz] gamxy   element strain matrix
+%               ......                 ]  one row for each element
 %-------------------------------------------------------------
 
-% LAST MODIFIED: M Ristinmaa 1995-10-25
+% LAST MODIFIED: A Olsson 1999-03-01
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
@@ -93,7 +94,6 @@ elseif ptype==2
 
     B=[0 1 0 0 0 0
        0 0 0 0 0 1
-%      0 0 0 0 0 0
        0 0 1 0 1 0]*inv(C);
 
     e=B*ed(i,:)';

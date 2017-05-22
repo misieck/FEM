@@ -40,7 +40,7 @@
     gp(:,2)=[-1;-1; 1; 1;-1;-1; 1; 1]*g1; w(:,2)=[ 1; 1; 1; 1; 1; 1; 1; 1]*w1;
     gp(:,3)=[-1;-1;-1;-1; 1; 1; 1; 1]*g1; w(:,3)=[ 1; 1; 1; 1; 1; 1; 1; 1]*w1;
   elseif ir==3
-    g1=0.774596699241483; g2=0.;
+    g1=0.774596669241483; g2=0.;
     w1=0.555555555555555; w2=0.888888888888888;
 
     I1=[-1; 0; 1;-1; 0; 1;-1; 0; 1]'; I2=[ 0;-1; 0; 0; 1; 0; 0; 1; 0]';
@@ -96,7 +96,7 @@
     indx=[ 3*i-2; 3*i-1; 3*i ];
     detJ=det(JT(indx,:));
     if detJ<10*eps
-      disp('Jacobideterminanten lika med noll!')
+      disp('Jacobideterminant equal or less than zero!')
     end
     JTinv=inv(JT(indx,:));
     dNx=JTinv*dNr(indx,:);

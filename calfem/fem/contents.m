@@ -1,5 +1,5 @@
 % CALFEM - A Finite Element Toolbox.
-% Version 3.2  02-Nov-95
+% Version 3.3  99-03-01
 %
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
@@ -15,7 +15,7 @@
 %   eigen      - Solve a generalized eigenvalue problem.
 %   extract    - Extract values from a global vector.
 %   insert     - Assemble element internal force vector.
-%   solve      - Solve a system of equations.
+%   solveq     - Solve a system of equations.
 %   statcon    - Perform static condensation.
 %
 % Dynamic system functions.
@@ -98,6 +98,7 @@
 % Graphics functions.
 %   eldraw2    - Draw undeformed finite element mesh.
 %   eldisp2    - Draw deformed finite element mesh.
+%   eldia2     - Draw section force diagram.
 %   elflux2    - Plot flux vectors.
 %   eliso2     - Draw isolines for nodal quantities.
 %   elprinc2   - Plot principal stresses.

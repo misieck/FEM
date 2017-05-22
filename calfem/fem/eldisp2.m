@@ -1,7 +1,7 @@
-function [magnfac]=eldisp2(ex,ey,ed,plotpar,magnfac)
-%eldisp2(ex,ey,ed,plotpar,magnfac)
-%[magnfac]=eldisp2(ex,ey,ed,plotpar)
-%[magnfac]=eldisp2(ex,ey,ed)
+function [sfac]=eldisp2(ex,ey,ed,plotpar,sfac)
+%eldisp2(ex,ey,ed,plotpar,sfac)
+%[sfac]=eldisp2(ex,ey,ed,plotpar)
+%[sfac]=eldisp2(ex,ey,ed)
 %-------------------------------------------------------------
 % PURPOSE 
 %   Draw the deformed 2D mesh for a number of elements of 
@@ -17,29 +17,29 @@ function [magnfac]=eldisp2(ex,ey,ed,plotpar,magnfac)
 %
 %    plotpar=[  linetype, linecolor, nodemark] 
 %
-%             linetype=1 -> solid    linecolor=1 -> white
-%                      2 -> dashed             2 -> green
-%                      3 -> dotted             3 -> yellow
+%             linetype=1 -> solid    linecolor=1 -> black
+%                      2 -> dashed             2 -> blue
+%                      3 -> dotted             3 -> magenta
 %                                              4 -> red
 %             nodemark=1 -> circle       
 %                      2 -> star              
 %                      0 -> no mark 
 %
-%    magnfac:  magnification factor for displacements 
+%    sfac:  scale factor for displacements 
 %            
-%    Rem. Default if magnfac and plotpar is left out is auto magnification 
-%         and dashed white lines with circles at nodes -> plotpar=[2 1 1] 
+%    Rem. Default if sfac and plotpar is left out is auto magnification 
+%         and dashed black lines with circles at nodes -> plotpar=[2 1 1] 
 %-------------------------------------------------------------
 
-% LAST MODIFIED: P-A Hansson  1994-03-27
+% LAST MODIFIED: O Dahlblom 2004-10-01
 % Copyright (c)  Division of Structural Mechanics and
-%                Department of Solid Mechanics.
+%                Division of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
 %
  if ~((nargin==3)|(nargin==4)|(nargin==5))
-    error('??? Wrong number of input arguments!')
-    
+    disp('??? Wrong number of input arguments!')
+    return
  end
  
  a=size(ex); b=size(ey);
@@ -47,15 +47,15 @@ function [magnfac]=eldisp2(ex,ey,ed,plotpar,magnfac)
  if (a-b)==[0 0]
     nen=a(2); 
  else
-    error('??? Check size of coordinate input arguments!')
-    
+    disp('??? Check size of coordinate input arguments!')
+    return
  end
  
  c=size(ed);
  
  if ~(c(1)==a(1))
-    error('??? Check size of displacement input arguments!')
-     
+    disp('??? Check size of displacement input arguments!')
+    return 
  end
  
  ned=c(2);
@@ -66,13 +66,13 @@ function [magnfac]=eldisp2(ex,ey,ed,plotpar,magnfac)
  krel=0.1;
  
  if nargin==3; 
-      plotpar=[2 1 1]; magnfac=krel*dlmax/edmax;
+      plotpar=[2 1 1]; sfac=krel*dlmax/edmax;
  elseif nargin==4
-      magnfac=krel*dlmax/edmax;
+      sfac=krel*dlmax/edmax;
  end
  
  [s1,s2]=pltstyle(plotpar);
- k=magnfac;
+ k=sfac;
 
 % ********** Bar or Beam elements *************
     if nen==2 
@@ -200,15 +200,13 @@ function [magnfac]=eldisp2(ex,ey,ed,plotpar,magnfac)
 %
 %**********************************************************       
     else
-       error('Sorry, this element is currently not supported!') 
-       
+       disp('Sorry, this element is currently not supported!') 
+       return
     end
 % ************* plot commands *******************
-    axis('equal')
     hold on
+    axis equal
     plot(xc,yc,s1)
-    if s2~=' '
-      plot(x,y,s2)
-    end
+    plot(x,y,s2)
     hold off
 %--------------------------end--------------------------------

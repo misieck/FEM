@@ -15,11 +15,11 @@ function [magnfac]=eldisp3(ex,ey,ez,ed,plotpar,magnfac)
 %                     nel:   number of elements   
 %    ed:     element displacement matrix
 %
-%    plotprop=[  linetype, linecolor, nodemark] 
+%    plotpar=[  linetype, linecolor, nodemark] 
 %
-%             linetype=1 -> solid    linecolor=1 -> white
-%                      2 -> dashed             2 -> green
-%                      3 -> dotted             3 -> yellow
+%             linetype=1 -> solid    linecolor=1 -> black
+%                      2 -> dashed             2 -> blue
+%                      3 -> dotted             3 -> magenta
 %                                              4 -> red
 %             nodemark=1 -> circle       
 %                      2 -> star              
@@ -31,15 +31,15 @@ function [magnfac]=eldisp3(ex,ey,ez,ed,plotpar,magnfac)
 %         circles at nodes if magnfac and plotpar is left out
 %-------------------------------------------------------------
 
-% LAST MODIFIED: P-E Austrell 1994-01-05 
+% LAST MODIFIED: A Olsson 2004-09-03
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
 %
  if ~((nargin==4)|(nargin==5)|(nargin==6))
-    error('??? Wrong number of input arguments!')
-    
+    disp('??? Wrong number of input arguments!')
+    return
  end 
  
  a=size(ex); b=size(ey); c=size(ez);
@@ -47,15 +47,15 @@ function [magnfac]=eldisp3(ex,ey,ez,ed,plotpar,magnfac)
  if ((a-b)==[0 0])&((b-c)==[0 0])
     nel=a(1);nen=a(2);
  else
-    error('??? Check size of coordinate input arguments!')
-    
+    disp('??? Check size of coordinate input arguments!')
+    return
  end
   
  d=size(ed);
  
  if ~(d(1)==a(1))
-    error('??? Check size of displacement input arguments!')
-     
+    disp('??? Check size of displacement input arguments!')
+    return 
  end
  
  ned=d(2);
@@ -94,8 +94,8 @@ function [magnfac]=eldisp3(ex,ey,ez,ed,plotpar,magnfac)
        end
 %**********************************************************          
     else
-       error('!!!!! Sorry, this element is currently not supported!')
-             
+       disp('!!!!! Sorry, this element is currently not supported!')
+       return      
     end
 % ************* plot commands *******************
     axis('equal')

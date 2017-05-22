@@ -7,7 +7,9 @@
 % REFERENCES
 %     P-E Austrell 1994-03-08 
 %     K-G Olsson 1995-09-28
+%     O Dahlblom 2004-09-07
 %----------------------------------------------------------------
+
 echo on
  
 %----- Topology matrix Edof -------------------------------------
@@ -21,13 +23,13 @@ echo on
 %----- Stiffness matrix K and load vector f ---------------------
 
  K=zeros(6); 
- f=zeros(6,1);
+ f=zeros(6,1);   f(4)=10
 
 %----- Element properties ---------------------------------------
 
- ep1=[ 1/0.07 ];	ep2=[ 1.7/0.07 ];
- ep3=[ 0.040/0.10 ];	ep4=[ 1.7/0.10 ];
- ep5=[ 1/0.18 ];
+ ep1=[25];	ep2=[24.3];
+ ep3=[0.4];	ep4=[17];
+ ep5=[7.7];
  
 %----- Element stiffness matrices  ------------------------------
 
@@ -45,15 +47,15 @@ echo on
 %----- Solve the system of equations ----------------------------
 
  bc= [1 -17; 6 20];   
- T=solveq(K,f,bc)
+ [a,r]=solveq(K,f,bc)
 
 %----- Element flows -------------------------------------------
 
- ed1=extract(Edof(1,:),T);
- ed2=extract(Edof(2,:),T);
- ed3=extract(Edof(3,:),T);
- ed4=extract(Edof(4,:),T);
- ed5=extract(Edof(5,:),T);
+ ed1=extract(Edof(1,:),a);
+ ed2=extract(Edof(2,:),a);
+ ed3=extract(Edof(3,:),a);
+ ed4=extract(Edof(4,:),a);
+ ed5=extract(Edof(5,:),a);
 
  q1=spring1s(ep1,ed1)
  q2=spring1s(ep2,ed2)

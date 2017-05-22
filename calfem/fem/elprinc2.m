@@ -1,7 +1,7 @@
-function [magnfac]=elprinc2(ex,ey,es,plotprop,magnfac)
-%elprinc2(ex,ey,es,plotpar,magnfac)
-%[magnfac]=elprinc2(ex,ey,es,plotpar)
-%[magnfac]=elprinc2(ex,ey,es)
+function [sfac]=elprinc2(ex,ey,es,plotpar,sfac)
+%elprinc2(ex,ey,es,plotpar,sfac)
+%[sfac]=elprinc2(ex,ey,es,plotpar)
+%[sfac]=elprinc2(ex,ey,es)
 %-------------------------------------------------------------
 % PURPOSE 
 %   Display element principal stresses as arrows for a number of  
@@ -17,26 +17,27 @@ function [magnfac]=elprinc2(ex,ey,es,plotprop,magnfac)
 %
 %    plotpar=[  arrowtype, arrowcolor]
 %
-%        arrowtype=1 -> solid       arrowcolor=1 -> white
-%                  2 -> dashed                 2 -> green
-%                  3 -> dotted                 3 -> yellow
+%        arrowtype=1 -> solid       arrowcolor=1 -> black
+%                  2 -> dashed                 2 -> blue
+%                  3 -> dotted                 3 -> magenta
 %                                              4 -> red
 %        
-%    magnfac:  =  arrowlength / max element principal
+%    sfac:  =  arrowlength / max element principal
 %
-%    Rem. Default is auto magnification and solid white arrows if magnfac
-%         and plotpar is left out.
+%    Rem. Default is auto magnification and solid white arrows if sfac
+%         and plotpar are left out.
 %         
 %-------------------------------------------------------------
 
-% LAST MODIFIED: P-E Austrell 1994-01-07 
+% LAST MODIFIED: O Dahlblom 2004-10-01
 % Copyright (c)  Division of Structural Mechanics and
-%                Department of Solid Mechanics.
+%                Division of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
 %
  if ~((nargin==3)|(nargin==4)|(nargin==5))
-    error('??? Wrong number of input arguments!')
+    disp('??? Wrong number of input arguments!')
+    return
  end
  
  a=size(ex); b=size(ey); c=size(es);
@@ -44,19 +45,19 @@ function [magnfac]=elprinc2(ex,ey,es,plotprop,magnfac)
  if (a-b)==[0 0]
      nel=a(1);nen=a(2); 
  else
-    error('??? Check size of coordinate input arguments!') 
-    k
+    disp('??? Check size of coordinate input arguments!') 
+    return
  end
  
  if ~((nen==3)|(nen==4))  
-    error('Sorry, this element is currently not supported!') 
-    
+    disp('Sorry, this element is currently not supported!') 
+    return
  end    
  
  if ~(c(1)==a(1))
     disp('??? Check size of stress input argument!')
-    error('One row for each element, i.e the mean stress sig x, -y and tau xy !') 
-     
+    disp('One row for each element, i.e the mean stress sig x, -y and tau xy !') 
+    return 
  end
 % 
 % if ned~=nen ; 
@@ -78,19 +79,19 @@ function [magnfac]=elprinc2(ex,ey,es,plotprop,magnfac)
  
  sig1m=sum(sig1)/nel; sig2m=sum(sig2)/nel; sigm=max(sig1m,sig2m);
 
- krel=0.4;
+ krel=0.8;
  
  if nargin==3; 
-    plotprop=[1 1];   magnfac=lm*krel/sigm;
+    plotpar=[1 1];   sfac=lm*krel/sigm;
  elseif nargin==4;
-    magnfac=lm*krel/sigm;
+    sfac=lm*krel/sigm;
  end
 
- plotpar=[plotprop 0]; s1=pltstyle(plotpar);
+ plotpar=[plotpar 0]; s1=pltstyle(plotpar);
  
  x0=sum(ex')/nen; y0=sum(ey')/nen;
  
- la1=magnfac*sig1;  la2=magnfac*sig2;
+ la1=0.5*sfac*sig1;  la2=0.5*sfac*sig2;
  
  qrt=(pi/2).*ones(size(alfa));
  

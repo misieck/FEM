@@ -59,7 +59,7 @@ function [es,et]=flw2qs(ex,ey,ep,D,ed,eq)
 
   a(5,ni)=0.;
   for i=1:ni
-    a(:,i)=solve(K,f,[[1:4]',ed(i,1:4)']);
+    a(:,i)=solveq(K,f,[[1:4]',ed(i,1:4)']);
   end
 
   [s1,t1]=flw2ts(ex1,ey1,D,[a(En(1,2:4),:)']);

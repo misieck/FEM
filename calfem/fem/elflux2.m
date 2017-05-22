@@ -1,7 +1,7 @@
-function [magnfac]=elflux(ex,ey,ef,plotprop,magnfac)
-%elflux2(ex,ey,ef,plotprop,magnfac)
-%[magnfac]=elflux2(ex,ey,ef,plotprop)
-%[magnfac]=elflux2(ex,ey,ef)
+function [sfac]=elflux2(ex,ey,es,plotpar,sfac)
+%elflux2(ex,ey,es,plotpar,sfac)
+%[sfac]=elflux2(ex,ey,es,plotpar)
+%[sfac]=elflux2(ex,ey,es)
 %-------------------------------------------------------------
 % PURPOSE 
 %   Display element flow arrows for a number of 2D scalar elements of 
@@ -13,46 +13,46 @@ function [magnfac]=elflux(ex,ey,ef,plotprop,magnfac)
 % INPUT    
 %    ex,ey:.......... nen:   number of element nodes
 %                     nel:   number of elements   
-%    ef:     element flow matrix
+%    es:     element flow matrix
 %
-%    plotprop=[  arrowtype, arrowcolor]
+%    plotpar=[ arrowtype, arrowcolor]
 %
-%        arrowtype=1 -> solid       arrowcolor=1 -> white
-%                  2 -> dashed                 2 -> green
-%                  3 -> dotted                 3 -> yellow
+%        arrowtype=1 -> solid       arrowcolor=1 -> black
+%                  2 -> dashed                 2 -> blue
+%                  3 -> dotted                 3 -> magenta
 %                                              4 -> red
 %        
-%    magnfac: magnification factor  =  arrowlength / element flow
+%    sfac: scalc factor  =  arrowlength / element flow
 %
-%    Rem. Default is auto magnification and solid white arrows if magnfac
-%         and plotpar is left out.
+%    Remark: If sfac and plotpar are left out the default is 
+%            auto magnification and solid black arrows.
 %         
 %-------------------------------------------------------------
 
-% LAST MODIFIED: P-E Austrell 1994-01-06 
+% LAST MODIFIED: O Dahlblom  2004-10-01
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
 %
  if ~((nargin==3)|(nargin==4)|(nargin==5))
-    error('??? Wrong number of input arguments!')
-    
+    disp('??? Wrong number of input arguments!')
+    return
  end
  
- a=size(ex); b=size(ey); c=size(ef);
+ a=size(ex); b=size(ey); c=size(es);
  
  if (a-b)==[0 0]
      nel=a(1);nen=a(2); 
  else
-    error('??? Check size of coordinate input arguments!') 
-    
+    disp('??? Check size of coordinate input arguments!') 
+    return
  end
 
  if ~(c(1)==a(1))
     disp('??? Check size of flow input argument!')
-    error('One row for each element, i.e the mean flow in x- and y-directions !') 
-     
+    disp('One row for each element, i.e the mean flow in x- and y-directions !') 
+    return 
  end
  
  ned=c(2); 
@@ -65,30 +65,45 @@ function [magnfac]=elflux(ex,ey,ef,plotprop,magnfac)
  dymax=max(max(ey')-min(ey'));
  lm=sum(sqrt(dxmax.^2+dymax.^2))/nel;
  
- qm=sum(sqrt(sum((ef').^2)))/nel;
+ qm=sum(sqrt(sum((es').^2)))/nel;
 
  krel=0.8;
  
  if nargin==3; 
-    plotprop=[1 1];
-    magnfac=lm*krel/qm;
+    plotpar=[1 1];
+    sfac=lm*krel/qm;
  elseif nargin==4;
-    magnfac=lm*krel/qm;
+    sfac=lm*krel/qm;
  end
 % *****************************************************************
  if ~((nen==3)|(nen==4))  
-     error('Sorry, this element is currently not supported!') 
-      
+     disp('Sorry, this element is currently not supported!') 
+     return 
  else
 % ************* plot commands ******************* 
-    plotpar=[plotprop 0];
-    s1=pltstyle(plotpar);
+    plotprop=[plotpar 0];
+    s1=pltstyle(plotprop);
  
-    q=sqrt(sum((ef').^2));
-    la=magnfac*q; fi=atan2(ef(:,2),ef(:,1)); loc=zeros(size(la));
+    q=sqrt(sum((es').^2));
+    la=sfac*q; fi=atan2(es(:,2),es(:,1)); loc=zeros(size(la));
   
     x0=sum(ex')/nen; y0=sum(ey')/nen;
  
-    arrow2(x0,y0,la,fi,loc,s1)
+    xyl0=[-0.5 0.35 0.35 0.5 0.35 0.35;
+         0   0  -0.05  0  0.05  0  ];
+    nar=length(x0);
+
+    for i=1:nar
+      xyl=xyl0-0.5*loc(i)*[1 1 1 1 1 1;
+                           0 0 0 0 0 0];
+      v=fi(i); L=la(i);
+
+      xy=L*[ cos(v)  -sin(v) ;
+             sin(v)   cos(v) ]*xyl+[x0(i)*ones(1,6);
+                                    y0(i)*ones(1,6)];
+      hold on
+      plot( xy(1,:)',xy(2,:)',s1)
+      hold off
+    end;
  end        
 %--------------------------end--------------------------------

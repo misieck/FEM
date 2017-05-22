@@ -24,9 +24,9 @@
 %                  ......              ]   one row for each element
 %-------------------------------------------------------------
 
-% LAST MODIFIED: M Ristinmaa    1995-10-25
+% LAST MODIFIED: A Olsson    2002-12-16
 % Copyright (c)  Division of Structural Mechanics and
-%                Department of Solid Mechanics.
+%                Division of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
 
@@ -50,8 +50,8 @@ if ptype==1
      a=(ex(ie,2)-ex(ie,1))/2;  b=(ey(ie,2)-ey(ie,1))/2;
 
      B=[-(b-y) -v*x   b-y   v*x   b+y  -v*x -(b+y)  v*x ;
-         -v*x -(a-x)  v*x -(a+x) -v*x   a+x   v*x   a-x ;
-          -a    -b    -a     b     a     b     a    -b  ]/(4*a*b);
+         -v*y -(a-x)  v*y -(a+x) -v*y   a+x   v*y   a-x ;
+          -a    -b    -a     b     a     b     a    -b  ]/(4*a*b) ;
   
       ee=B*ed(i,:)';
       ss([1 2 4],1)=Dm*ee;
@@ -76,8 +76,8 @@ elseif ptype==2
      a=(ex(ie,2)-ex(ie,1))/2;  b=(ey(ie,2)-ey(ie,1))/2;
 
      B=[-(b-y) -v*x   b-y   v*x   b+y  -v*x -(b+y)  v*x ;
-         -v*x -(a-x)  v*x -(a+x) -v*x   a+x   v*x   a-x ;
-          -a    -b    -a     b     a     b     a    -b  ]/(4*a*b);
+         -v*y -(a-x)  v*y -(a+x) -v*y   a+x   v*y   a-x ;
+          -a    -b    -a     b     a     b     a    -b  ]/(4*a*b) ;
       
      e=B*ed(i,:)';
      ee([1 2 4],1)=e;

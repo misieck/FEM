@@ -13,14 +13,14 @@ function [t,g]=gfunc(G,dt);
 %         g : 1-D vector with corresponding function values 
 %-------------------------------------------------------------
 
-% LAST MODIFIED: H Carlsson 1993-09-23
+% LAST MODIFIED: K Persson 1997-04-07
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
   [np nc]=size(G);
   ti=G(1,1):dt:G(np,1);
-  g1=interp1(G(:,1),G(:,2),ti);
+  g1=interp1(G(:,1),G(:,2),ti');
 %-------------------------------------------------------------
 if nargout == 0
   disp('Discrete function values have been computed');

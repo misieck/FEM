@@ -15,7 +15,7 @@ function Functest(functype)
 %   * plate bending element functions     :functype='platel '
 %   * error handling and other functions  :functype='errorh '
 
-% LAST MODIFIED: Kent Persson 1995-08-25
+% LAST MODIFIED: Kent Persson 1997-04-15
 %------------------------------------------------------------
 % 
 %           Function type is assigned here:
@@ -28,10 +28,11 @@ function Functest(functype)
 % functype='solidel'
 % functype='platel '
 % functype='errorh '
+% functype='testall' 
 %
 %       static system functions  :
 %
- if functype=='statsys';
+ if (functype=='statsys') | (functype=='testall');
     disp('**************************************')
     disp('***** testing of system functions ****')
     disp('****************************** *******')
@@ -47,8 +48,8 @@ function Functest(functype)
     [K,f]=assem(En2,K,Ke,f,fe)
     pause
     Bc=[1 0];
-    disp('[d,Q]=solve(K,f,Bc)')
-    [d,Q]=solve(K,f,Bc)
+    disp('[d,Q]=solveq(K,f,Bc)')
+    [d,Q]=solveq(K,f,Bc)
     pause
     disp('ed1=extract(En1,d)')
     ed1=extract(En1,d)
@@ -63,20 +64,21 @@ function Functest(functype)
     pause
     disp('K1=red(K,Cd)')
     K1=red(K,Cd)
+  end;
 %
 %       dynamic system and other functions  :
 %
- elseif functype=='dynsys '
+ if (functype=='dynsys ') | (functype=='testall');
     disp('******************************************')
     disp('** testing of dynamic system functions ***')
     disp('******************************************')
-    
+ end;
 %................... cont........................... 
     
 %
 %       bar element functions  :
 %
- elseif functype=='barel  ';
+ if (functype=='barel  ') | (functype=='testall');
     disp('**************************************')
     disp('****** testing of bar elements *******')
     disp('****************************** *******') 
@@ -102,8 +104,8 @@ function Functest(functype)
     disp('Ke=bar2g(ex,ey,ep,N)')
     Ke=bar2g(ex,ey,ep,N)
     pause
-    disp('P=bar2gs(ex,ey,ep,ed,N)')
-    P=bar2gs(ex,ey,ep,ed,N)
+    disp('P=bar2s(ex,ey,ep,ed)')
+    P=bar2s(ex,ey,ep,ed)
     pause
     ex=[1 2];
     ey=[1 2];
@@ -114,10 +116,11 @@ function Functest(functype)
     pause
     disp('P=bar3s(ex,ey,ez,ep,ed)')
     P=bar3s(ex,ey,ez,ep,ed)
+ end;
 %
 %       beam element functions  :
 %
- elseif functype=='beamel '
+ if (functype=='beamel ')  | (functype=='testall');
     disp('**************************************')
     disp('****** testing of beam elements  *****')
     disp('****************************** *******') 
@@ -172,10 +175,11 @@ function Functest(functype)
     ed=[1 1 1 1 1 1 3 3 3 3 3 3];
     disp('P=beam3s(ex,ey,ez,e0,ep,ed)')
     P=beam3s(ex,ey,ez,e0,ep,ed)
+  end;
 %
 %      field element  functions  :
 % 
- elseif functype=='fieldel'
+ if (functype=='fieldel')  | (functype=='testall');
     disp('***************************************')
     disp('****** testing of field elements  *****')
     disp('***************************************')
@@ -246,10 +250,11 @@ function Functest(functype)
 %-------------------------------------------------------
     disp('[es,et,xi]=flw3i8s(ex,ey,ez,ep,D,ed)')
     [es,et,xi]=flw3i8s(ex,ey,ez,ep,D,ed)
+  end;
 %
 %      solid element functions  :
 %    
- elseif functype=='solidel'
+ if (functype=='solidel')  | (functype=='testall');
     disp('***************************************')
     disp('****** testing of solid elements  *****')
     disp('***************************************')
@@ -257,7 +262,7 @@ function Functest(functype)
     b=[1 1]';
     ex=[1 2 2];
     ey=[1 1 2];
-    ep=1;
+    ep=[1 1];
     ed=[0 0 1 0 1 0];
     disp('[Ke,fe]=plante(ex,ey,ep,D,b)')    
     [Ke,fe]=plante(ex,ey,ep,D,b)
@@ -299,7 +304,7 @@ function Functest(functype)
 %-------------------------------------------------------    
     ex=[1 2 2 1];
     ey=[1 1 2 2];
-    ep=[1 2];
+    ep=[1 1 2];
     disp('[Ke,Fe]=plani4e(ex,ey,ep,D,b)')
     [Ke,Fe]=plani4e(ex,ey,ep,D,b)
     pause
@@ -333,19 +338,19 @@ function Functest(functype)
     disp('[es,X]=soli8s(ex,ey,ez,ep,D,ed)')
     [es,X]=soli8s(ex,ey,ez,ep,D,ed)
 %-------------------------------------------------------
+  end;
 %
 %      plate element  functions  :
 %  
- elseif functype=='platel '
+ if (functype=='platel ')  | (functype=='testall');
     disp('***************************************')
     disp('****** testing of plate element   *****')
     disp('***************************************')
     disp('     TEST FUNCTION NOT IMPLEMENTED     ');
+ end;
 %
 %      error handling and other functions  :
 %  
- elseif functype=='errorh '
+ if (functype=='errorh ')  | (functype=='testall');
  
- else
-    disp('???? Check length of text input variable!')
- end
+ end;

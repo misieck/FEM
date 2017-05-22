@@ -1,18 +1,20 @@
 % CALFEM - Users manual example scripts.
-% Version 3.3  1999-03-01
+% Version 3.4  2004-10-07
 %
-% Copyright (c)  Division of Structural Mechanics and
-%                Department of Solid Mechanics.
+% Copyright (c)  Division of Structural Mechanics
 %                Lund Institute of Technology
 %------------------------------------------------------------------------------
 % Static analysis examples.
 %   exs1   - Linear spring system.
 %   exs2   - One dimensional heat flow.
-%   exs3   - Simply supported beam.
-%   exs4   - Plane truss.
-%   exs5   - Plane frame.
-%   exs6   - Geometry based frame analysis.
-%   exs7   - Two dimensional diffusion.
+%   exs3   - Plane truss.
+%   exs4a  - Plane truss analysed using loops.
+%   exs4b  - Plane truss analysed using loops and extraction of element 
+%            coordinates from a global coordinate matrix
+%   exs5   - Simply supported beam.
+%   exs6   - Plane frame.
+%   exs7   - Geometry stabilized with bars.
+%   exs8   - Two dimensional diffusion.
 %
 % Dynamic analysis examples.
 %   exd1   - Modal analysis of frame.

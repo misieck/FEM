@@ -2,7 +2,7 @@ function [es,deps,st]=mises(ptype,mp,est,st);
 % [es,deps,st]=mises(ptype,mp,est,st)
 %-------------------------------------------------------------
 % PURPOSE
-%  Compute stresses and plastic strains for an elasto-plastic 
+%  Compute stresses and plastic strains for an elasto-plastic
 %  isotropic hardening von Mises material.
 %
 % INPUT:  ptype             analysis type
@@ -40,11 +40,11 @@ H=mp(3);
 ivn=st;
 
 %---------- plane stess --------------------------------------
-if ptype==1                     
+if ptype==1
   disp('Plane Stress not implemented');
   
 %---------- plane strain and axisymmetry----------------------
-elseif (ptype==2 | ptype==3)   
+elseif (ptype==2 | ptype==3)
   for i=1:nr
     Sy=ivn(i,2);
     Skk=est(i,1)+est(i,2)+est(i,3);
@@ -70,7 +70,7 @@ elseif (ptype==2 | ptype==3)
     end
    end
 %--------- three dimensional case ----------------------------
-elseif ptype==4                 
+elseif ptype==4
  for i=1:nr
   Sy=ivn(i,2);
   Skk=est(i,1)+est(i,2)+est(i,3);
@@ -81,7 +81,7 @@ elseif ptype==4
     Dl=(SeffT-Sy)/(3*G+H);
     Sy2=Sy+H*Dl;
     if Sy2<0     % for softening plasticity i.e. H<0
-      Dl=-Sy/H+SeffT/(3*G);    
+      Dl=-Sy/H+SeffT/(3*G);
       Sy2=0;
     end
     Epeff=ivn(i,3)+Dl;
@@ -100,3 +100,4 @@ else
    return
 end
 %--------------------------end--------------------------------
+

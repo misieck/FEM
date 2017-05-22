@@ -8,7 +8,7 @@ function [es,et]=platrs(ex,ey,ep,D,ed)
 % INPUT: ex = [x1 x2 x3 x4]     element coordinates
 %        ey = [y1 y2 y3 y4]
 %
-%        ep = [t]               thicknes
+%        ep = [t]               thickness
 %
 %        D                      constitutive matrix for
 %                               plane stress
@@ -16,12 +16,12 @@ function [es,et]=platrs(ex,ey,ep,D,ed)
 %        ed = [u1 u2......u12;  element displacement vector
 %             .............   ] one row for each element
 %
-% OUTPUT: es = [ Mx My Mxy Vx Vy M1 M2 alfa;   element force matrix
-%                    ......                ]   one row for each element
-%         et = [kx,ky,kz]       curvature in global coordinates
+% OUTPUT: es = [ Mxx Myy Mxy Vxz Vyz;   element force matrix
+%                    ......          ]  one row for each element
+%         et = [kxx,kyy,kxy]       curvature in global coordinates
 %-------------------------------------------------------------
 
-% LAST MODIFIED: K Persson    1995-08-23
+% LAST MODIFIED: Anders Olsson   1999-03-01
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
@@ -60,7 +60,7 @@ vy=B3*(ed(:,2)+ed(:,5)+ed(:,8)+ed(:,11))+B5*(ed(:,3)-ed(:,6)+ed(:,9)-ed(:,12))..
      +B1*(-ed(:,1)-ed(:,4)+ed(:,7)+ed(:,10));
          
          
-es=[mx my mxy vx vy m1 m2 alfa];
+es=[mx my mxy vx vy];
 
 et=-inv(D)*[mx;my;mxy];
 et=et';

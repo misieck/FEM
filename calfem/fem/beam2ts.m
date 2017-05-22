@@ -42,8 +42,8 @@ function [es,edi,eci]=beam2ts(ex,ey,ep,ed,eq,n)
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology
 %-------------------------------------------------------------
-  if nargin==5; ne=2; end;
-  if nargin==4; ne=2; eq=[0 0]; end;
+  if nargin==5; n=2; end;
+  if nargin==4; n=2; eq=[0 0]; end;
   ne=n;
 %
   EA=ep(1)*ep(3);

@@ -5,8 +5,8 @@ function [es,et]=flw2ts(ex,ey,D,ed)
 %  Compute flows or corresponding quantities in the
 %  triangular field element.
 %
-% INPUT:  ex = [x1 x2 x3 x4]
-%         ey = [y1 y2 y3 y4]      element coordinates
+% INPUT:  ex = [x1 x2 x3]
+%         ey = [y1 y2 y3]         element coordinates
 %                             
 %         D = [kxx kxy;
 %              kyx kyy]           constitutive matrix
@@ -22,7 +22,7 @@ function [es,et]=flw2ts(ex,ey,D,ed)
 %              ... ..]            element gradients
 %-------------------------------------------------------------
 
-% LAST MODIFIED: K Persson    1995-08-23
+% LAST MODIFIED: K Persson    1997-04-14
 % Copyright (c)  Division of Structural Mechanics and
 %                Department of Solid Mechanics.
 %                Lund Institute of Technology

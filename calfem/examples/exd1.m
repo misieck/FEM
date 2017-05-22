@@ -63,19 +63,19 @@ FreqText=num2str(Freq(1));       text(.5,1.75,FreqText);
 % ----- plot eight eigenmodes ------------------------------------
 
 figure(2), clf, axis('equal'), hold on, axis off
-magnfac=0.5;
+sfac=0.5;
 title('The first eight eigenmodes (Hz)' )
 for i=1:4;
   Edb=extract(Edof,Egv(:,i));
   Ext=Ex+(i-1)*3;                eldraw2(Ext,Ey,[2 3 1]); 
-  eldisp2(Ext,Ey,Edb,[1 2 2],magnfac);
+  eldisp2(Ext,Ey,Edb,[1 2 2],sfac);
   FreqText=num2str(Freq(i));     text(3*(i-1)+.5,1.5,FreqText);
 end;
 Eyt=Ey-4; 
 for i=5:8;
   Edb=extract(Edof,Egv(:,i));
   Ext=Ex+(i-5)*3;                eldraw2(Ext,Eyt,[2 3 1]); 
-  eldisp2(Ext,Eyt,Edb,[1 2 2],magnfac);
+  eldisp2(Ext,Eyt,Edb,[1 2 2],sfac);
   FreqText=num2str(Freq(i));     text(3*(i-5)+.5,-2.5,FreqText);
 end
 

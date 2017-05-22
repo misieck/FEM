@@ -37,19 +37,19 @@ text(0.2,0.022,'solid line = bottom, vertical beam, x-direction')
 text(0.2,0.017,'dashed line = center, vertical beam, x-direction')
 text(0.2,0.012,'dashed-dotted line = center, horizontal beam, y-direction')
 % ----- plot displacement for some time increments --------------
-figure(2),clf, axis('equal'), hold on, axis off,  magnfac=20;  
+figure(2),clf, axis('equal'), hold on, axis off,  sfac=20;  
 title('Snapshots (sec), magnification = 20');
 for i=1:5;
   Ext=Ex+(i-1)*3;            eldraw2(Ext,Ey,[2 3 0]); 
   Edb=extract(Edof,Dsnap(:,i));
-  eldisp2(Ext,Ey,Edb,[1 2 2],magnfac);
+  eldisp2(Ext,Ey,Edb,[1 2 2],sfac);
   Time=num2str(ntimes(i));   text(3*(i-1)+.5,1.5,Time);
 end;
 Eyt=Ey-4; 
 for i=6:10;
   Ext=Ex+(i-6)*3;            eldraw2(Ext,Eyt,[2 3 0]); 
   Edb=extract(Edof,Dsnap(:,i));
-  eldisp2(Ext,Eyt,Edb,[1 2 2],magnfac);
+  eldisp2(Ext,Eyt,Edb,[1 2 2],sfac);
   Time=num2str(ntimes(i));   text(3*(i-6)+.5,-2.5,Time);
 end
 % ----------------------- end -----------------------------------

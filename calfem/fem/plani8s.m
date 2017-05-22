@@ -40,7 +40,7 @@
     gp(:,1)=[-g1; g1;-g1; g1];  gp(:,2)=[-g1;-g1; g1; g1];
     w(:,1)=[ w1; w1; w1; w1];   w(:,2)=[ w1; w1; w1; w1];
   elseif ir==3
-    g1=0.774596699241483; g2=0.;
+    g1=0.774596669241483; g2=0.;
     w1=0.555555555555555; w2=0.888888888888888;
     gp(:,1)=[-g1;-g2; g1;-g1; g2; g1;-g1; g2; g1];
     gp(:,2)=[-g1;-g1;-g1; g2; g2; g2; g1; g1; g1];
@@ -90,7 +90,7 @@ if ptype==1
     Dm=D;
   end
   
-  if rowex==11 incie=0; else incie=1; end
+  if rowex==1 incie=0; else incie=1; end
   
   es=[]; et=[]; eci=[]; ie=1;
   for ied=1:rowed
@@ -133,7 +133,7 @@ elseif ptype==2
   rowex=size(ex,1);
   colD =size(D ,2);
     
-  if rowex==11 incie=0; else incie=1; end
+  if rowex==1 incie=0; else incie=1; end
   
   es=[]; et=[]; eci=[]; ie=1; ee=zeros(colD,1);
   for ied=1:rowed
