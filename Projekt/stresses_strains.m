@@ -99,8 +99,9 @@ a = solveq(K,f,bc);
 D_smd = hooke(2, E_smd, nu_smd);
 D_pcb = hooke(2, E_pcb, nu_pcb);
 D_sol = hooke(2, E_sol, nu_sol);
-s = [];
-vonMises = [];
+
+Seff_el = zeros(nelem,1);
+
 for i = 1:nelem
          switch elements(4, i)
         case 1
@@ -112,13 +113,22 @@ for i = 1:nelem
         case 3
             D = D_sol;
          end
-         
+    
     enod = edof(i, 2:7);    
     [es, et] = plants(Ex(i,:), Ey(i,:), [2 1], D, a(enod)' );
-    s = [s;es];
-    s2 = es.^2;
-    s2 = sum(s2');
-    vonMises=[vonMises;sqrt(s2)];
+    sxx=es(1);
+    syy=es(2);
+    szz= es(3);
+    sxy=es(4);
+    Seff_temp=sqrt(sxx^2+syy^2+szz^2-sxx*syy-sxx*szz-syy*szz+3*sxy^2);
+    Seff_el(i) = Seff_temp;
+end
+
+Seff_nod = zeros(ndof/2, 1);
+
+for i=1: size(coord,1)
+    [c0,c1] = find(edof(:,2:4)==i);
+    Seff_nod(i,1) = sum(Seff_el(c0))/size(c0,1);
 end
 
 
