@@ -21,7 +21,7 @@ close all
 eldraw2(Ex,Ey,[1,4,1]);
 
 dt = 0.2;
-Time = 240;
+Time = 2400;
 
 K = sparse(ndof,ndof);
 K_c = sparse(ndof,ndof);
@@ -101,12 +101,19 @@ pbound = [pbound' T_0*ones(length(pbound),1)];
 time_history_of_the_load = f_b;
 
 d0 = T_0 * ones(ndof,1);
-ip = [dt, Time, 1, [3, ndof, [0.1 1 240], [1:ndof] ]  ];
+ip = [dt, Time, 1, [4, ndof, [1 10 60 240], [1:ndof] ]  ];
 [Tsnap D V] = step1(K, C, d0, ip, f_b, []);
 
 
 stationary_index = find_stationary(V, 0.0001, 50);
 stationary_temps = D(:, stationary_index);
+
+scale = 'auto';
+for i = 1:3
+    draw_temps(Ex, Ey, edof, Tsnap(:,i), i+1, scale);
+end
+
+draw_temps(Ex, Ey, edof, stationary_temps, 5, scale);
 
 
 % Starting temperature
