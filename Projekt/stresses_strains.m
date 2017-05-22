@@ -76,10 +76,12 @@ end
 ux0_edge = find(coord(:,1) > 1e-3 - 1e-6);
 uy0_edge = ux0_edge + ndof/2;
 
+ux0_middle = find(coord(:,1) >  - 1e-6);
+
 ux0_bottom = find(coord(:,2)<0 + 1e-6);
 uy0_bottom = ux0_bottom + ndof/2;
 
-bc_dof = unique([ux0_edge; uy0_edge; ux0_bottom; uy0_bottom]);
+bc_dof = unique([ux0_edge; uy0_bottom; ux0_middle]);
 
 %Tänker jag rätt i att vi har randvillkor t=0 där förskjutningen ej är
 %given? JA!
@@ -89,7 +91,7 @@ bc = [bc_dof zeros(length(bc_dof), 1)];
 f = f0;
 
 
-%R�kna ut f�rskjutning
+%R�kna ut f�rskjutning
 a = solveq(K,f,bc);
 
 
@@ -119,6 +121,15 @@ for i = 1:nelem
     vonMises=[vonMises;sqrt(s2)];
 end
 
+
+%Ed1=extract(Edof1,a);
+%Ed2=extract(Edof2,a);
+%[sfac]=scalfact2(Ex1,Ey1,Ed1,0.2);
+
+%eldisp2(Ex1,Ey1,Ed1,[2 1 1],sfac);
+%eldisp2(Ex2,Ey2,Ed2,[2 1 1],sfac);
+
+
 %PRINTA!!!
 Ed = extract(edof,a);
-[sfac] = eldisp2(Ex,Ey,Ed);
+[sfac] = eldisp2(Ex,Ey,Ed, [2 1 1])

@@ -16,6 +16,8 @@ edof(:,2:4)=elements(1:3,:)' ;
 coord=points' ;
 ndof=max(max(elements(1:3,:)));
 [Ex,Ey]=coordxtr(edof,coord,(1:ndof)',3);
+
+close all
 eldraw2(Ex,Ey,[1,4,1]);
 
 dt = 0.2;
