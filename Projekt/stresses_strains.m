@@ -127,8 +127,8 @@ end
 Seff_nod = zeros(ndof/2, 1);
 
 for i=1: size(coord,1)
-    [c0,c1] = find(edof(:,2:4)==i);
-    Seff_nod(i,1) = sum(Seff_el(c0))/size(c0,1);
+    [c0,c1] = find(edof_old(:,2:4)==i);
+    Seff_nod(i) = sum(Seff_el(c0))/size(c0,1);
 end
 
 
@@ -143,3 +143,5 @@ end
 %PRINTA!!!
 Ed = extract(edof,a);
 [sfac] = eldisp2(Ex,Ey,Ed, [2 1 1])
+
+draw_temps(Ex, Ey, edof_old, Seff_nod, 7, scale);
