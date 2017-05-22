@@ -1,10 +1,8 @@
 clear all;
 project;
 
-
-%Här ska den stationära lösningen för temperaturen komma!!!!!!!!!!!!!!!
-%Importera från project
-Temp_stat = Tsnap(:,3);
+%Define stationary temperature
+Temp_stat = stationary_temps;
 
 %vi har fler (dubbelt så många) frihetsgrader - redigera edof och ndof
 %Kan detta göraspå snyggare sätt?
@@ -90,7 +88,7 @@ f = f0;
 
 
 %Räkna ut förskjutning
-a = solveq(K,f, bc);
+a = solveq(K,f,bc);
 
 %DENNA ÄR INTE KLAR ÄN!
 %Räkna ut stresses and strains
