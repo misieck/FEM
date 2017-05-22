@@ -96,30 +96,43 @@ a = solveq(K,f,bc);
 
 
 %stress
-D_smd = hooke(2, E_smd, nu_smd);
-D_pcb = hooke(2, E_pcb, nu_pcb);
-D_sol = hooke(2, E_sol, nu_sol);
-
 Seff_el = zeros(nelem,1);
 
 for i = 1:nelem
-         switch elements(4, i)
+     switch elements(4, i)
         case 1
-            D = D_smd;
+            D = D_pcb;
+            nu = nu_pcb;
+            E = E_pcb;
+            alpha = alpha_pcb;
             
         case 2
             D = D_smd;
+            nu = nu_smd;
+            E = E_smd;
+            alpha = alpha_smd;
             
         case 3
             D = D_sol;
-         end
+            nu = nu_sol;
+            E = E_sol;
+            alpha = alpha_sol;
+     end
     
-    enod = edof(i, 2:7);    
+    enod = edof(i, 2:7);
+    enod2 = edof_old(i, 2:4)
+    Tnodes = stationary_temps(enod2);
     [es, et] = plants(Ex(i,:), Ey(i,:), [2 1], D, a(enod)' );
+    Tavg = (Tnodes(1)+Tnodes(2)+Tnodes(3))/3;
+    De0 = alpha*E*Tavg/(1-nu) * [1; 1; 0];
+    es = es-De0';
+    
     sxx=es(1);
     syy=es(2);
-    szz= es(3);
-    sxy=es(4);
+    sxy=es(3);
+    
+    szz = nu*(sxx-syy)-alpha*E*Tavg;
+    
     Seff_temp=sqrt(sxx^2+syy^2+szz^2-sxx*syy-sxx*szz-syy*szz+3*sxy^2);
     Seff_el(i) = Seff_temp;
 end
