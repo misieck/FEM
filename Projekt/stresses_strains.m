@@ -4,8 +4,8 @@ project;
 %Define stationary temperature
 Temp_stat = stationary_temps;
 
-%vi har fler (dubbelt så många) frihetsgrader - redigera edof och ndof
-%Kan detta göraspå snyggare sätt?
+%vi har fler (dubbelt sï¿½ mï¿½nga) frihetsgrader - redigera edof och ndof
+%Kan detta gï¿½raspï¿½ snyggare sï¿½tt?
 add = ndof*ones(nelem,1);
 edof_old = edof;
 edof = [edof(:, 1:2) edof(:,2)+add, edof(:, 3), edof(:,3)+add, edof(:,4) edof(:,4)+add];
@@ -17,7 +17,7 @@ f = sparse(ndof, 1);
 f0 = sparse(ndof, 1);
 
 
-%Skapa de tre möjliga D som finns för de olika elementen
+%Skapa de tre mï¿½jliga D som finns fï¿½r de olika elementen
 D_smd = hooke(2, E_smd, nu_smd);
 D_smd = red(D_smd, 3);
 D_pcb = hooke(2, E_pcb, nu_pcb);
@@ -26,8 +26,8 @@ D_sol = hooke(2, E_sol, nu_sol);
 D_sol = red(D_sol, 3);
 
 
-%kolla så elementnummer stämmer med rätt D
-%Tillskriv rätt D beroende på material samt assembla Ke och fe0
+%kolla sï¿½ elementnummer stï¿½mmer med rï¿½tt D
+%Tillskriv rï¿½tt D beroende pï¿½ material samt assembla Ke och fe0
 for i = 1:nelem
      switch elements(4, i)
         case 1
@@ -54,17 +54,17 @@ for i = 1:nelem
  %elementets y-koordinater i noderna
  y = Ey(i,:)';
  
- %Vi vill veta vilka noder som är kopplade...
+ %Vi vill veta vilka noder som ï¿½r kopplade...
  nodes = edof_old(i,2:4);
- %för attt kunna plocka ut rätt temperatur ur a_stat
- T = [Temp_stat(nodes(1)); Temp_stat(nodes(2)); Temp_stat(nodes(3))];
+ %fÃ¶r attt kunna plocka ut rÃ¤tt temperatur ur a_stat
+ T = Temp_stat(nodes);
  
- %Räkna ut Ke
+ %RÃ¤kna ut Ke
  Ke = plante(Ex(i,:), Ey(i,:), [2 1], D);
  
- %Räkna ut f0e MYCKET OSÄKER PÅ DETTA UTTRYCK!!!!
- Ttot = sum(T);
- constant=0.5*alpha*E/(1-2*nu)*(1/3*Ttot-T_0);
+ %RÃ¤kna ut f0e, lite OSÃ„KER PÃ… DETTA UTTRYCK!!!!
+ T_avg = sum(T)/3;
+ constant=0.5*alpha*E/(1-2*nu)*(T_avg-T_0);
  Be110 = [y(2)-y(3); x(3)- x(2); y(3)-y(1); x(1)-x(3); y(1)-y(2); x(2)-x(1)];
  f0e = constant * Be110;
  [K, f0] = assem(edof(i, :), K, Ke, f0, f0e);
@@ -72,15 +72,17 @@ for i = 1:nelem
 end
 
 %Hitta noder med "randvillkor"
-%Kolla så att dessa punkter stämmer, vad menar man med bara ux och xh uy?
-ux0 = find(coord(:,1) > 1e-3 - 1e-6);
-ux00 = ux0 + ndof/2*ones(length(ux0),1);
-uy0 = find(coord(:,2)<0 + 1e-6);
-uy00 = uy0 + ndof/2*ones(length(uy0),1);
-bc_dof = [ux0; ux00; uy0; uy00];
+%Kolla sÃ¥ att dessa punkter stÃ¤mmer, vad menar man med bara ux och xh uy?
+ux0_edge = find(coord(:,1) > 1e-3 - 1e-6);
+uy0_edge = ux0_edge + ndof/2;
 
-%Tänker jag rätt i att vi har randvillkor t=0 där förskjutningen ej är
-%given?
+ux0_bottom = find(coord(:,2)<0 + 1e-6);
+uy0_bottom = ux0_bottom + ndof/2;
+
+bc_dof = unique([ux0_edge; uy0_edge; ux0_bottom; uy0_bottom]);
+
+%TÃ¤nker jag rÃ¤tt i att vi har randvillkor t=0 dÃ¤r fÃ¶rskjutningen ej Ã¤r
+%given? JA!
 
 %definera randvillkor
 bc = [bc_dof zeros(length(bc_dof), 1)];
@@ -90,15 +92,17 @@ f = f0;
 %Räkna ut förskjutning
 a = solveq(K,f,bc);
 
-%DENNA ÄR INTE KLAR ÄN!
-%Räkna ut stresses and strains
-t = [];
+
+%stress
+D_smd = hooke(2, E_smd, nu_smd);
+D_pcb = hooke(2, E_pcb, nu_pcb);
+D_sol = hooke(2, E_sol, nu_sol);
 s = [];
 vonMises = [];
 for i = 1:nelem
          switch elements(4, i)
         case 1
-            D = D_pcb;
+            D = D_smd;
             
         case 2
             D = D_smd;
@@ -108,14 +112,13 @@ for i = 1:nelem
          end
          
     enod = edof(i, 2:7);    
-    [es, et] = plants(Ex(i,:), Ey(i,:), [2,1], D, enod);
+    [es, et] = plants(Ex(i,:), Ey(i,:), [2 1], D, a(enod)' );
     s = [s;es];
-    t = [t;et];
-    t2 = et.^2;
-    t2 = sum(t2');
-    vonMises=[vonMises;sqrt(t2)];
+    s2 = es.^2;
+    s2 = sum(s2');
+    vonMises=[vonMises;sqrt(s2)];
 end
 
 %PRINTA!!!
-aEd = extract(edof,a);
+Ed = extract(edof,a);
 [sfac] = eldisp2(Ex,Ey,Ed);

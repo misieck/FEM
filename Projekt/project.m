@@ -115,8 +115,7 @@ Kt = C/dt + K;
 for i = 1:250 % Run for 10 s
     ft = f_b + C*a0/dt;
     a=solveq(Kt,ft);
-    
-    a0(85)
+   
     a0 = a;
 end
 
