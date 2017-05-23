@@ -1,4 +1,4 @@
-clear all
+%clear all
 constants;
 
 stuff = load('mesh.mat');
@@ -41,30 +41,16 @@ conv_edges = union (conv_edges, find ( edges(5,:)==4 ));
 
 
 for elem = 1:nelem
-    switch elements(4, elem)
-        case 1
-            k = k_pcb;
-            c_ro = c_pcb * ro_pcb;
-        case 2
-            k = k_smd;
-            c_ro = c_smd * ro_smd;
-        case 3
-            k = k_sol;
-            c_ro = c_sol * ro_sol;
-    end
+    [E,nu,k,ro,c,alpha,De] = decideElementproperties(elements, elem);
     D= [k 0;
         0 k];
     Ke = flw2te(Ex(elem,:), Ey(elem, :),1, D);
     K_old = K;
     K = assem(edof(elem,:),K, Ke);
-    Ce = plantml(Ex(elem,:), Ey(elem,:), c_ro);
-    C = assem(edof(elem,:),C, Ce); 
-    if max(max(K)) > 300
-        
-        disp 'hej'
-    end
+    Ce = plantml(Ex(elem,:), Ey(elem,:), c);
+    C = assem(edof(elem,:),C, Ce);
 end
-K_1 = K;
+
 
 for edge = q_edges
     nodes = edges(1:2, edge);
@@ -105,7 +91,7 @@ time_history_of_the_load = f_b;
 
 d0 = T_0 * ones(ndof,1);
 ip = [dt, Time, 1, [4, ndof, [1 10 60 240], [1:ndof] ]  ];
-[Tsnap D V] = step1(K, C, d0, ip, f_b, []);
+[Tsnap] = step1(K, C, d0, ip, f_b, []);
 
 
 %stationary_index = find_stationary(V, 0.0001, 50);
