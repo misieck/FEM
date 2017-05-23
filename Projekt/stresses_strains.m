@@ -2,7 +2,7 @@ clear all;
 project;
 
 %Define stationary temperature
-Temp_stat = astat;
+Temp_stat = a_stat;
 %Temp_stat = 20*ones(ndof, 1);
 
 %vi har fler (dubbelt s� m�nga) frihetsgrader - redigera edof och ndof

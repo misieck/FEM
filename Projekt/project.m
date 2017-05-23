@@ -1,7 +1,7 @@
 clear all
 constants;
 
-stuff = load('mesh-lo.mat');
+stuff = load('mesh.mat');
 edges = stuff.edges;
 
 %correct scale in stuff.points 
@@ -17,7 +17,7 @@ coord=points' ;
 ndof=max(max(elements(1:3,:)));
 [Ex,Ey]=coordxtr(edof,coord,(1:ndof)',3);
 
-close all
+%close all;
 eldraw2(Ex,Ey,[1,4,1]);
 
 dt = 0.2;
@@ -69,9 +69,8 @@ K_1 = K;
 for edge = q_edges
     nodes = edges(1:2, edge);
     edge_length = distance_proj( points(:, edges(1, edge)), points (:, edges(2, edge)) );
-    f_b_e = sparse(ndof, 1);
-    f_b_e(nodes) = q_el * edge_length/2;
-    f_b = f_b + f_b_e;
+    f_b_e = q_el * edge_length/2*ones(2,1);
+    f_b(nodes) = f_b(nodes)+f_b_e;
 end
 
 % for edge = conv_edges
@@ -118,8 +117,8 @@ for i = 1:3
 end
 
 %draw_temps(Ex, Ey, edof, stationary_temps, 5, scale);
-astat = solveq(K, f_b);
-draw_temps(Ex, Ey, edof, astat, 5, scale);
+a_stat = solveq(K, f_b);
+draw_temps(Ex, Ey, edof, a_stat, 5, scale);
 
 % 
 % % Starting temperature
