@@ -2,7 +2,8 @@ clear all;
 project;
 
 %Define stationary temperature
-Temp_stat = stationary_temps;
+Temp_stat = astat;
+%Temp_stat = 20*ones(ndof, 1);
 
 %vi har fler (dubbelt s� m�nga) frihetsgrader - redigera edof och ndof
 %Kan detta g�rasp� snyggare s�tt?
@@ -76,19 +77,20 @@ end
 ux0_edge = find(coord(:,1) > 1e-3 - 1e-6);
 uy0_edge = ux0_edge + ndof/2;
 
-ux0_middle = find(coord(:,1) >  - 1e-6);
+ux0_middle = find(coord(:,1) <  1e-6);
 
 ux0_bottom = find(coord(:,2)<0 + 1e-6);
 uy0_bottom = ux0_bottom + ndof/2;
 
 bc_dof = unique([ux0_edge; uy0_bottom; ux0_middle]);
+%ux0_bottom; uy0_edge]);
 
 %Tänker jag rätt i att vi har randvillkor t=0 där förskjutningen ej är
 %given? JA!
 
 %definera randvillkor
 bc = [bc_dof zeros(length(bc_dof), 1)];
-f = f0;
+f = f + f0;
 
 
 %R�kna ut f�rskjutning
@@ -118,20 +120,20 @@ for i = 1:nelem
             E = E_sol;
             alpha = alpha_sol;
      end
-    
+     
     enod = edof(i, 2:7);
-    enod2 = edof_old(i, 2:4)
-    Tnodes = stationary_temps(enod2);
+    enod2 = edof_old(i, 2:4);
+    Tnodes = Temp_stat(enod2);
     [es, et] = plants(Ex(i,:), Ey(i,:), [2 1], D, a(enod)' );
-    Tavg = (Tnodes(1)+Tnodes(2)+Tnodes(3))/3;
-    De0 = alpha*E*Tavg/(1-nu) * [1; 1; 0];
+    dTavg = (Tnodes(1)+Tnodes(2)+Tnodes(3))/3 - 30;
+    De0 = alpha*E*dTavg/(1-nu) * [1; 1; 0];
     es = es-De0';
     
     sxx=es(1);
     syy=es(2);
     sxy=es(3);
     
-    szz = nu*(sxx-syy)-alpha*E*Tavg;
+    szz = nu*(sxx-syy)-alpha*E*dTavg;
     
     Seff_temp=sqrt(sxx^2+syy^2+szz^2-sxx*syy-sxx*szz-syy*szz+3*sxy^2);
     Seff_el(i) = Seff_temp;
@@ -154,7 +156,10 @@ end
 
 
 %PRINTA!!!
+figure(6)
+eldraw2(Ex,Ey,[1,4,1]);
 Ed = extract(edof,a);
-[sfac] = eldisp2(Ex,Ey,Ed, [2 1 1])
+[sfac] = eldisp2(Ex,Ey,Ed, [2 1 1]);
+eldisp2(Ex,Ey,Ed,[2 1 1],sfac);
 
 draw_temps(Ex, Ey, edof_old, Seff_nod, 7, scale);
