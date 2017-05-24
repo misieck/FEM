@@ -3,7 +3,7 @@ close all;
 
 constants;
 
-stuff = load('mesh-lo.mat');
+stuff = load('mesh.mat');
 edges = stuff.edges;
 
 %correct scale in stuff.points 
@@ -87,4 +87,4 @@ for i = 1:3
 end
 
 a_stat = solveq(K, f_b);
-draw_temps(Ex, Ey, edof, a_stat, 5, scale);
+draw_temps(Ex, Ey, edof, a_stat, i+2, scale);
