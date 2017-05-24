@@ -19,7 +19,6 @@ ndof=max(max(elements(1:3,:)));
 
 [~,~,k,ro,c,~] = decideElementproperties(elements, nelem);
 
-%eldraw2(Ex,Ey,[1,4,1]);
 
 dt = 0.2;
 Time = 240;

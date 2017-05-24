@@ -1,7 +1,7 @@
 
 
 function [E,nu,k,ro,c,alpha] = decideElementproperties(elements, nelem)
-    constants;
+     constants;
     
      E = zeros(nelem, 1);
      nu = zeros(nelem, 1);

@@ -113,11 +113,15 @@ end
 
 
 %PRINTA!!!
-figure(6)
-eldraw2(Ex,Ey,[1,4,1]);
+figure(1)
+hold on
 Ed = extract(edof,a);
+eldraw2(Ex,Ey,[1,4,1]);
+eldraw2(-Ex,Ey,[1,4,1]);
+
+Ed_neg = [-Ed(:,1),Ed(:,2), -Ed(:,3), Ed(:,4), -Ed(:,5), Ed(:,6)]
 [sfac] = eldisp2(Ex,Ey,Ed, [2 1 1]);
-eldisp2(Ex,Ey,Ed,[2 1 1],sfac);
+         eldisp2(-Ex,Ey, Ed_neg, [2 1 1]);
 
 scale = 'auto';
 draw_temps(Ex, Ey, edof_old, Seff_nod, 7, scale);
