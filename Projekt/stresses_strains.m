@@ -17,7 +17,6 @@ f0 = sparse(ndof, 1);
 
  [E,nu,~, ~, ~, alpha] = decideElementproperties(elements, nelem);
  
-
 %Calculate D depending on material, and assembla Ke och fe0
 for i = 1:nelem
  

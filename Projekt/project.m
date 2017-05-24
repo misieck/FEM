@@ -60,23 +60,11 @@ for edge = q_edges
     f_b(nodes) = f_b(nodes)+f_be;
 end
 
-% for edge = conv_edges
-%     nodes = edges(1:2, edge);
-%     edge_length = distance_proj( points(:, edges(1, edge)), points (:, edges(2, edge)) );
-%     f_b_e = sparse(ndof, 1);
-%     f_b_e(nodes) = T_inf * alpha_c * edge_length/2;
-%     f_b = f_b + f_b_e;
-% end
 
 for edge = conv_edges
     nodes = edges(1:2, edge);
      edge_length = distance_proj( points(:, edges(1, edge)), points (:, edges(2, edge)) );
-%     K_c_e = sparse(ndof, ndof);
-%     K_c_e (nodes(1), nodes(2)) = alpha_c * edge_length/6;
-%     K_c_e (nodes(2), nodes(1)) = K_c_e(nodes(1), nodes(2));
-%     K_c_e (nodes(1), nodes(1)) = alpha_c * edge_length/3;
-%     K_c_e (nodes(2), nodes(2)) = K_c_e (nodes(1), nodes(1)) ;
-%     K_c = K_c + K_c_e;
+
         
         f_be = T_inf * alpha_c * edge_length/2*ones(2,1);
         K_ce = edge_length*alpha_c/6 * [2, 1; 1, 2];
@@ -88,23 +76,16 @@ K = K + K_c;
 
 pbound = unique (reshape(edges(1:2, conv_edges), 1,[]));
 pbound = [pbound' T_0*ones(length(pbound),1)];
-%time_history_of_the_load = f_b;
 
 d0 = T_0 * ones(ndof,1);
 ip = [dt, Time, 1, [4, ndof, [1 10 60 240], 1:ndof ]  ];
 
 [Tsnap, D, V] = step1(K, C, d0, ip, f_b, []);
 
-
-%stationary_index = find_stationary(V, 0.0001, 50);
-%stationary_temps = D(:, stationary_index);
 scale = 'auto';
-
 for i = 1:3
     draw_temps(Ex, Ey, edof, Tsnap(:,i), i+1,scale);
 end
-
-%draw_temps(Ex, Ey, edof, stationary_temps, 5, scale);
 
 a_stat = solveq(K, f_b);
 draw_temps(Ex, Ey, edof, a_stat, 5, scale);
