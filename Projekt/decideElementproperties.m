@@ -1,41 +1,44 @@
 
 
-function [E,nu,k,ro,c,alpha,D] = decideElementproperties(elements, IndexForElement)
-     constants;
-        
-     switch elements(4, IndexForElement)
+function [E,nu,k,ro,c,alpha] = decideElementproperties(elements, nelem)
+    constants;
+    
+     E = zeros(nelem, 1);
+     nu = zeros(nelem, 1);
+     k = zeros(nelem, 1);
+     ro = zeros(nelem, 1);
+     c = zeros(nelem, 1);
+     alpha = zeros(nelem, 1);
+    
+    for i = 1:nelem
+     switch elements(4, i)
         case 1
             
-            E = E_pcb;
-            nu = nu_pcb;
-            k = k_pcb;
-            ro = ro_pcb;
-            c = c_pcb;
-            alpha = alpha_pcb;
-            
-            D = D_pcb;
+            E(i) = E_pcb;
+            nu(i) = nu_pcb;
+            k(i) = k_pcb;
+            ro(i) = ro_pcb;
+            c(i) = c_pcb;
+            alpha(i) = alpha_pcb;
             
         case 2
             
-            E = E_smd;
-            nu = nu_smd;
-            k = k_smd;
-            ro = ro_smd;
-            c = c_smd;
-            alpha = alpha_smd;
-            
-            D = D_smd;
-            
+            E(i) = E_smd;
+            nu(i) = nu_smd;
+            k(i) = k_smd;
+            ro(i) = ro_smd;
+            c(i) = c_smd;
+            alpha(i) = alpha_smd;
+         
         case 3
             
-            E = E_sol;
-            nu = nu_sol;
-            k = k_sol;
-            ro = ro_sol;
-            c = c_sol;
-            alpha = alpha_sol;
-            
-            D = D_sol;
+            E(i) = E_sol;
+            nu(i) = nu_sol;
+            k(i) = k_sol;
+            ro(i) = ro_sol;
+            c(i) = c_sol;
+            alpha(i) = alpha_sol;
      end
+    end
 
     
