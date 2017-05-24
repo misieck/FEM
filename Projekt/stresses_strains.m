@@ -15,11 +15,13 @@ K = sparse(ndof,ndof);
 f = sparse(ndof, 1);
 f0 = sparse(ndof, 1);
 
+ [E,nu,~, ~, ~, alpha] = decideElementproperties(elements, nelem);
+ 
+
 %Calculate D depending on material, and assembla Ke och fe0
 for i = 1:nelem
  
- [E,nu,~, ~, ~, alpha] = decideElementproperties(elements, i);
- D = hooke(2, E, nu);
+ D = hooke(2, E(i), nu(i));
  D = red(D, 3);
  
  %elementets x-koordinater i noderna    
@@ -38,7 +40,7 @@ for i = 1:nelem
  %Räkna ut f0e, lite OSÄKER PÅ DETTA UTTRYCK!!!!
  
  T_avg = sum(T)/3;
- constant=0.5*alpha*E/(1-2*nu)*(T_avg-T_0);
+ constant=0.5*alpha(i)*E(i)/(1-2*nu(i))*(T_avg-T_0);
  Be110 = [y(2)-y(3); x(3)- x(2); y(3)-y(1); x(1)-x(3); y(1)-y(2); x(2)-x(1)];
  f0e = constant * Be110;
  [K, f0] = assem(edof(i, :), K, Ke, f0, f0e);
@@ -68,24 +70,30 @@ a = solveq(K,f,bc);
 Seff_el = zeros(nelem,1);
 
 for i = 1:nelem
-    [E,nu,~, ~, ~,alpha] = decideElementproperties(elements, i);
-     
+    
+     D = hooke(2, E(i), nu(i));
+     D = red(D, 3);
+
     enod = edof(i, 2:7);
+
+    [es, et] = plants(Ex(i,:), Ey(i,:), [2 1], D, a(enod)' );
+    
     enod2 = edof_old(i, 2:4);
     Tnodes = Temp_stat(enod2);
-    [es, et] = plants(Ex(i,:), Ey(i,:), [2 1], D, a(enod)' );
     dTavg = (Tnodes(1)+Tnodes(2)+Tnodes(3))/3 - 30;
-    De0 = alpha*E*dTavg/(1-nu) * [1; 1; 0];
+    
+    De0 = alpha(i)*E(i)*dTavg/(1-2*nu(i)) * [1; 1; 0];
     es = es-De0';
     
     sxx=es(1);
     syy=es(2);
-    G = 0.5*E/(1-nu);
+    
+    G = 0.5*E(i)/(1+nu(i));
     tao_xy = G*et(3); 
     
-    szz = nu*(sxx-syy)-alpha*E*dTavg;
+    szz = nu(i)*(sxx-syy)-alpha(i)*E(i)*dTavg;
     
-    Seff_temp=sqrt(sxx^2+syy^2+szz^2-sxx*syy-sxx*szz-syy*szz+3*tao_xy^2);
+    Seff_temp=sqrt(sxx^2+syy^2+szz^2-sxx*syy-sxx*szz-syy*szz+3*(tao_xy)^2);
     Seff_el(i) = Seff_temp;
 end
 
@@ -112,4 +120,5 @@ Ed = extract(edof,a);
 [sfac] = eldisp2(Ex,Ey,Ed, [2 1 1]);
 eldisp2(Ex,Ey,Ed,[2 1 1],sfac);
 
-draw_temps(Ex, Ey, edof_old, Seff_nod, 7);
+scale = 'auto';
+draw_temps(Ex, Ey, edof_old, Seff_nod, 7, scale);

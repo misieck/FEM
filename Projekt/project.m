@@ -98,12 +98,13 @@ ip = [dt, Time, 1, [4, ndof, [1 10 60 240], 1:ndof ]  ];
 
 %stationary_index = find_stationary(V, 0.0001, 50);
 %stationary_temps = D(:, stationary_index);
+scale = 'auto';
 
 for i = 1:3
-    draw_temps(Ex, Ey, edof, Tsnap(:,i), i+1);
+    draw_temps(Ex, Ey, edof, Tsnap(:,i), i+1,scale);
 end
 
 %draw_temps(Ex, Ey, edof, stationary_temps, 5, scale);
 
 a_stat = solveq(K, f_b);
-draw_temps(Ex, Ey, edof, a_stat, 5);
+draw_temps(Ex, Ey, edof, a_stat, 5, scale);
