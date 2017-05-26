@@ -79,7 +79,7 @@ for i = 1:4
     xlabel('x [m]');
     ylabel('y [m]');
     h = colorbar;
-    xlabel(h, 'Temperature [°C]')
+    xlabel(h, 'Temperature [C]')
 
 end
 
@@ -89,4 +89,4 @@ draw_temps(Ex, Ey, edof, a_stat, i+2, scale);
     xlabel('x [m]');
     ylabel('y [m]');
     h = colorbar;
-    xlabel(h, 'Temperature [°C]')
+    xlabel(h, 'Temperature [C]')
