@@ -1,0 +1,11 @@
+stuff = load('mesh.mat');
+edges = stuff.edges;
+points = stuff.points/1000;
+elements = stuff.triangles;
+nelem=length(elements(1,:));
+edof = zeros(nelem,4);
+edof(:,1)=1:nelem ;
+edof(:,2:4)=elements(1:3,:)' ;
+coord=points';
+ndof=max(max(elements(1:3,:)));
+[Ex,Ey]=coordxtr(edof,coord,(1:ndof)',3);
