@@ -10,39 +10,38 @@ edof = [edof(:, 1:2) edof(:,2)+ndof, edof(:, 3), edof(:,3)+ndof, ...
     edof(:,4) edof(:,4)+ndof];
 ndof = 2*ndof;
 
-%Skapa tom K, f och f0
+%Create empty K, f och f0
 K = sparse(ndof,ndof);
 f0 = sparse(ndof, 1);
 
  [E,nu,~, ~, ~, alpha] = decideElementproperties(elements, nelem);
  
-%Calculate D depending on material, and assembla Ke och fe0
+%Calculate D depending on material, and assemble Ke och fe0
 for i = 1:nelem
  
  De = hooke(2, E(i), nu(i));
  De = red(De, 3);
  
- %elementets x-koordinater i noderna    
+ %The elementet's x-coordinates in nodes   
  x = Ex(i,:)';
- %elementets y-koordinater i noderna
+ %%The elementet's y-coordinates in nodes
  y = Ey(i,:)';
  
- %Vi vill veta vilka noder som ar kopplade...
+ %Finds out which nodes are coupled...
  nodes = edof_old(i,2:4);
- %för attt kunna plocka ut rätt temperatur ur a_stat
+ %...and its temperatures 
  T = Temp_stat(nodes);
  
- %Räkna ut Ke
+ %Calculate Ke
  Ke = plante(Ex(i,:), Ey(i,:), [2 1], De);
  
- %Räkna ut f0e
+ %Calculate f0e
  T_avg = sum(T)/3;
  a_tmp_constant=0.5*alpha(i)*E(i)/(1-2*nu(i))*(T_avg-T_0);
- 
- e0 = (1 + nu(i)) * alpha(i) * (T_avg-T_0) * [1; 1; 0];
- 
  Be_110 = [y(2)-y(3); x(3)- x(2); y(3)-y(1); x(1)-x(3); y(1)-y(2); x(2)-x(1)];
  f0e = a_tmp_constant * Be_110;
+
+ %Assemble
  [K, f0] = assem(edof(i, :), K, Ke, f0, f0e);
  
 end
@@ -104,7 +103,7 @@ for i=1: size(coord,1)
     Seff_nod(i) = sum(Seff_el(c0))/size(c0,1);
 end
 
-%PRINTA!!!
+%Print
 figure(1)
 hold on
 Ed = extract(edof,u);

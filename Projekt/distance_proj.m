@@ -1,3 +1,5 @@
+%Calculates the length of between to points with coordinated (a_x, a_y) and
+%(b_x, b_y)
 function d=distance_proj(a, b)
 
 x1 = a(1);
