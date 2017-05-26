@@ -43,7 +43,6 @@ for i = 1:nelem
  
  Be_110 = [y(2)-y(3); x(3)- x(2); y(3)-y(1); x(1)-x(3); y(1)-y(2); x(2)-x(1)];
  f0e = a_tmp_constant * Be_110;
- f0e = plantf(Ex(i,:), Ey(i,:), [2, 1], (De*e0)');
  [K, f0] = assem(edof(i, :), K, Ke, f0, f0e);
  
 end
@@ -115,6 +114,11 @@ eldraw2(-Ex,Ey,[1,4,1]);
 Ed_neg = [-Ed(:,1),Ed(:,2), -Ed(:,3), Ed(:,4), -Ed(:,5), Ed(:,6)];
 [sfac] = eldisp2(Ex,Ey,Ed, [2 1 1]);
          eldisp2(-Ex,Ey, Ed_neg, [2 1 1]);
-
+    xlabel('x [m]');
+    ylabel('y [m]');
 scale = 'auto';
 draw_temps(Ex, Ey, edof_old, Seff_nod, 7, scale);
+    xlabel('x [m]');
+    ylabel('y [m]');
+    h = colorbar;
+    xlabel(h, 'Stress [Pa]')
