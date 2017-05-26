@@ -1,4 +1,5 @@
-
+%creates (nelem*1) vectors for E, nu, k, ro, c and alpha defining what material
+%properties each element has
 
 function [E,nu,k,ro,c,alpha] = decideElementproperties(elements, nelem)
      constants;
@@ -11,8 +12,8 @@ function [E,nu,k,ro,c,alpha] = decideElementproperties(elements, nelem)
      alpha = zeros(nelem, 1);
     
     for i = 1:nelem
-     switch elements(4, i)
-        case 1
+     switch elements(4, i) %row 4 in elements tells which subdomain element i belongs to
+        case 1 %subdomain 1 is the pcb
             
             E(i) = E_pcb;
             nu(i) = nu_pcb;
@@ -21,7 +22,7 @@ function [E,nu,k,ro,c,alpha] = decideElementproperties(elements, nelem)
             c(i) = c_pcb;
             alpha(i) = alpha_pcb;
             
-        case 2
+        case 2 %subdomain 2 is the smd;
             
             E(i) = E_smd;
             nu(i) = nu_smd;
@@ -30,7 +31,7 @@ function [E,nu,k,ro,c,alpha] = decideElementproperties(elements, nelem)
             c(i) = c_smd;
             alpha(i) = alpha_smd;
          
-        case 3
+         case 3 %subdomain 3 is the solder
             
             E(i) = E_sol;
             nu(i) = nu_sol;

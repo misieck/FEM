@@ -1,3 +1,5 @@
+%Defines constants
+
 E_smd = 105e9; %Young's modulus [Pa]
 E_pcb = 105e9;
 E_sol = 50e9;
