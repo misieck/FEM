@@ -1,4 +1,4 @@
-function [u, Seff_nod] = Stress(Temp_stat)
+function Stress(Temp_stat)
 constants;
 
 Topology;

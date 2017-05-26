@@ -1,4 +1,4 @@
-function [Tsnap, a_stat] = Temperature
+function [a_stat] = Temperature
 constants;
 
 Topology;
